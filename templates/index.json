@@ -215,24 +215,24 @@
             "text": "24/7"
           }
         },
-        "w2": {
-          "type": "word",
-          "settings": {
-            "text": "ATMOS"
-          }
-        },
         "w3": {
           "type": "word",
           "settings": {
             "text": "LIVE ROOMS"
+          }
+        },
+        "w2": {
+          "type": "word",
+          "settings": {
+            "text": "365"
           }
         }
       },
       "block_order": [
         "w0",
         "w1",
-        "w2",
-        "w3"
+        "w3",
+        "w2"
       ],
       "settings": {
         "style": "inverse",
