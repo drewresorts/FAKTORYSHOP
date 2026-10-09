@@ -1,11 +1,34 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
       "type": "hero-3d",
       "settings": {
-        "shape": "blob",
+        "eyebrow": "RECORD LABEL / STUDIO / MEDIA",
+        "heading": "THE\nFAKTORY",
+        "subheading": "Sound manufactured without compromise. Artists, studio time, merch and content — all off the same line.",
+        "button_label": "BOOK THE STUDIO",
         "button_link": "/pages/studio",
-        "button2_link": "/collections/all"
+        "button2_label": "SHOP MERCH",
+        "button2_link": "/collections/all",
+        "badge_text": "THE FAKTORY • RECORDS • STUDIO • MEDIA •",
+        "height": "full",
+        "shape": "blob",
+        "model_url": "",
+        "keep_materials": false,
+        "iridescence": 40,
+        "roughness": 6,
+        "tint": "#ffffff",
+        "spin": 100,
+        "particles": true
       }
     },
     "marquee": {
@@ -101,36 +124,56 @@
         "a1": {
           "type": "artist",
           "settings": {
-            "name": "NOVA KRUZ",
-            "role": "VOCALIST"
+            "name": "SOUNDBOY KWAD",
+            "role": "",
+            "link": "",
+            "spotify": "",
+            "instagram": "",
+            "youtube": ""
           }
         },
         "a2": {
           "type": "artist",
           "settings": {
             "name": "STEEL_HALO",
-            "role": "PRODUCER"
+            "role": "PRODUCER",
+            "link": "",
+            "spotify": "",
+            "instagram": "",
+            "youtube": ""
           }
         },
         "a3": {
           "type": "artist",
           "settings": {
             "name": "MERCURY",
-            "role": "DJ / LIVE"
+            "role": "DJ / LIVE",
+            "link": "",
+            "spotify": "",
+            "instagram": "",
+            "youtube": ""
           }
         },
         "a4": {
           "type": "artist",
           "settings": {
             "name": "VXLT",
-            "role": "RAP"
+            "role": "RAP",
+            "link": "",
+            "spotify": "",
+            "instagram": "",
+            "youtube": ""
           }
         },
         "a5": {
           "type": "artist",
           "settings": {
             "name": "CHROMA",
-            "role": "ELECTRONIC"
+            "role": "ELECTRONIC",
+            "link": "",
+            "spotify": "",
+            "instagram": "",
+            "youtube": ""
           }
         }
       },
@@ -145,17 +188,25 @@
         "eyebrow": "ROSTER",
         "heading": "THE ARTISTS",
         "layout": "rail",
+        "limit": 12,
         "link_label": "FULL ROSTER",
         "link": "/pages/artists"
       }
     },
     "statement": {
       "type": "statement",
-      "settings": {}
+      "settings": {
+        "eyebrow": "MANIFESTO",
+        "text": "WE BUILD ARTISTS, NOT ALGORITHMS. EVERY RECORD, EVERY SESSION, EVERY DROP IS MANUFACTURED IN-HOUSE AT FULL VOLUME.",
+        "button_label": "",
+        "button_link": ""
+      }
     },
     "merch": {
       "type": "featured-collection",
       "settings": {
+        "eyebrow": "MERCH / DROP 001",
+        "heading": "OFF THE LINE",
         "collection": "all",
         "limit": 8,
         "columns": "4"
@@ -209,18 +260,22 @@
           "type": "room",
           "settings": {
             "name": "STUDIO A",
+            "description": "<p>Flagship live room and control room.</p>",
+            "features": "SSL CONSOLE\nATMOS 7.1.4\nISO BOOTH",
             "rate_label": "$85/HR",
             "rate": 85,
-            "features": "SSL CONSOLE\nATMOS 7.1.4\nISO BOOTH"
+            "product": ""
           }
         },
         "r2": {
           "type": "room",
           "settings": {
             "name": "STUDIO B",
+            "description": "<p>Flagship live room and control room.</p>",
+            "features": "WRITING ROOM\nVOCAL BOOTH\nANALOG SYNTH WALL",
             "rate_label": "$55/HR",
             "rate": 55,
-            "features": "WRITING ROOM\nVOCAL BOOTH\nANALOG SYNTH WALL"
+            "product": ""
           }
         },
         "s1": {
@@ -261,8 +316,15 @@
         "s4"
       ],
       "settings": {
+        "eyebrow": "RECORDING STUDIO",
+        "heading": "BOOK THE ROOM",
+        "text": "<p>Tracking, mixing, mastering and content capture. Engineers on call. Load-in 24/7.</p>",
         "mode": "both",
-        "heading": "BOOK THE ROOM"
+        "embed_url": "",
+        "form_heading": "LOCK A SESSION",
+        "form_subheading": "We confirm every request within 24 hours.",
+        "min_hours": 2,
+        "project_types": "Tracking, Mixing, Mastering, Podcast, Video / Content, Rehearsal"
       }
     },
     "hub": {
@@ -271,6 +333,7 @@
         "v1": {
           "type": "video",
           "settings": {
+            "video": "",
             "title": "STUDIO SESSIONS EP. 01",
             "label": "VIDEO",
             "size": "lg"
@@ -281,6 +344,7 @@
           "settings": {
             "title": "FAKTORY RADIO 001",
             "label": "PODCAST",
+            "embed_url": "",
             "size": "md"
           }
         },
@@ -289,6 +353,7 @@
           "settings": {
             "title": "LIVE FROM STUDIO A",
             "schedule": "EVERY FRIDAY 21:00",
+            "link": "",
             "is_live": true,
             "size": "sm"
           }
@@ -308,18 +373,27 @@
         "bl"
       ],
       "settings": {
+        "eyebrow": "FAKTORY MEDIA",
         "heading": "TRANSMISSIONS"
       }
     },
     "split": {
       "type": "split-feature",
       "settings": {
+        "reverse": false,
+        "eyebrow": "THE LABEL",
+        "heading": "INDEPENDENT. LOUD.",
+        "text": "<p>Artist development, distribution, publishing and sync — built around the people making the music.</p>",
+        "button_label": "ABOUT THE LABEL",
         "button_link": "/pages/about"
       }
     },
     "newsletter": {
       "type": "newsletter",
-      "settings": {}
+      "settings": {
+        "heading": "GET ON THE LIST",
+        "text": "EARLY ACCESS TO DROPS, TICKETS AND STUDIO OPENINGS."
+      }
     }
   },
   "order": [
