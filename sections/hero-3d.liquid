@@ -1,0 +1,131 @@
+{%- liquid
+  assign heading_lines = section.settings.heading | newline_to_br | split: '<br />'
+-%}
+<section class="hero hero--{{ section.settings.height }}" data-hero>
+  <div class="hero__stage">
+    {%- if section.settings.bg_video != blank -%}
+      <div class="hero__bg-video" aria-hidden="true">
+        {{ section.settings.bg_video | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, controls: false }}
+      </div>
+    {%- elsif section.settings.bg_image != blank -%}
+      <div class="hero__bg-video" aria-hidden="true">
+        {{ section.settings.bg_image | image_url: width: 2400 | image_tag: loading: 'eager', fetchpriority: 'high', sizes: '100vw', widths: '800, 1200, 1800, 2400' }}
+      </div>
+    {%- endif -%}
+
+    <faktory-scene
+      class="hero__scene"
+      data-shape="{{ section.settings.shape }}"
+      {% if section.settings.model_url != blank %}data-model="{{ section.settings.model_url | escape }}"{% endif %}
+      {% if section.settings.keep_materials %}data-keep-materials="true"{% endif %}
+      data-iridescence="{{ section.settings.iridescence | divided_by: 100.0 }}"
+      data-roughness="{{ section.settings.roughness | divided_by: 100.0 }}"
+      data-tint="{{ section.settings.tint }}"
+      data-spin="{{ section.settings.spin | divided_by: 100.0 }}"
+      data-particles="{{ section.settings.particles }}"
+    >
+      {%- if section.settings.fallback_image != blank -%}
+        {{ section.settings.fallback_image | image_url: width: 1400 | image_tag: class: 'scene-fallback', loading: 'eager', alt: '' }}
+      {%- endif -%}
+      <span class="scene-hint mono" aria-hidden="true">{{ 'sections.hero.drag_hint' | t }}</span>
+    </faktory-scene>
+
+    <div class="hero__content page-width">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="hero__eyebrow mono hero__fade" style="--d: .1s"><i class="live-dot"></i>{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      <h1 class="hero__title display-xl">
+        {%- for line in heading_lines -%}
+          <span class="hero__line"><span class="chrome-text hero__line-inner" style="--i: {{ forloop.index0 }}">{{ line | strip }}</span></span>
+        {%- endfor -%}
+      </h1>
+      <div class="hero__foot">
+        {%- if section.settings.subheading != blank -%}
+          <p class="hero__sub hero__fade" style="--d: .55s">{{ section.settings.subheading }}</p>
+        {%- endif -%}
+        <div class="hero__ctas hero__fade" style="--d: .7s">
+          {%- if section.settings.button_label != blank -%}
+            <a href="{{ section.settings.button_link }}" class="chrome-btn" data-magnetic><span>{{ section.settings.button_label }}</span>{% render 'icon', icon: 'arrow' %}</a>
+          {%- endif -%}
+          {%- if section.settings.button2_label != blank -%}
+            <a href="{{ section.settings.button2_link }}" class="ghost-btn" data-magnetic><span>{{ section.settings.button2_label }}</span></a>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+
+    {%- if section.settings.badge_text != blank -%}
+      <div class="spin-badge" aria-hidden="true">
+        <svg viewBox="0 0 200 200">
+          <defs><path id="badge-{{ section.id }}" d="M100,100 m-80,0 a80,80 0 1,1 160,0 a80,80 0 1,1 -160,0"/></defs>
+          <text><textPath href="#badge-{{ section.id }}" textLength="498" lengthAdjust="spacing">{{ section.settings.badge_text }}</textPath></text>
+        </svg>
+        <span class="spin-badge__core chrome-bg"></span>
+      </div>
+    {%- endif -%}
+
+    <div class="hero__hud mono" aria-hidden="true">
+      <span>X <b data-hud-x>0.00</b></span>
+      <span>Y <b data-hud-y>0.00</b></span>
+      <span class="hero__hud-scroll">{{ 'sections.hero.scroll' | t }} ↓</span>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "3D chrome hero",
+  "class": "section-hero",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "RECORD LABEL / STUDIO / MEDIA" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "info": "Each line is animated separately.", "default": "THE\nFAKTORY" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Sound manufactured without compromise. Artists, studio time, merch and content — all off the same line." },
+    { "type": "text", "id": "button_label", "label": "Primary button label", "default": "BOOK THE STUDIO" },
+    { "type": "url", "id": "button_link", "label": "Primary button link" },
+    { "type": "text", "id": "button2_label", "label": "Secondary button label", "default": "SHOP MERCH" },
+    { "type": "url", "id": "button2_link", "label": "Secondary button link" },
+    { "type": "text", "id": "badge_text", "label": "Spinning badge text", "default": "THE FAKTORY • RECORDS • STUDIO • MEDIA • " },
+    {
+      "type": "select",
+      "id": "height",
+      "label": "Height",
+      "options": [
+        { "value": "full", "label": "Full screen" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "full"
+    },
+    { "type": "header", "content": "3D object" },
+    {
+      "type": "select",
+      "id": "shape",
+      "label": "Shape",
+      "options": [
+        { "value": "blob", "label": "Liquid chrome blob" },
+        { "value": "logo", "label": "Chrome F monogram" },
+        { "value": "knot", "label": "Torus knot" },
+        { "value": "rings", "label": "Gyroscope rings" },
+        { "value": "model", "label": "Custom GLB model" }
+      ],
+      "default": "blob"
+    },
+    {
+      "type": "text",
+      "id": "model_url",
+      "label": "Custom GLB model URL",
+      "info": "Upload a .glb to Content > Files and paste its URL. Used when Shape is Custom GLB model."
+    },
+    { "type": "checkbox", "id": "keep_materials", "label": "Keep the model's own materials", "info": "Off = render the model in chrome.", "default": false },
+    { "type": "range", "id": "iridescence", "min": 0, "max": 100, "step": 5, "unit": "%", "label": "Iridescence", "default": 40 },
+    { "type": "range", "id": "roughness", "min": 0, "max": 60, "step": 2, "unit": "%", "label": "Roughness", "default": 6 },
+    { "type": "color", "id": "tint", "label": "Metal tint", "default": "#ffffff" },
+    { "type": "range", "id": "spin", "min": 0, "max": 200, "step": 10, "unit": "%", "label": "Idle spin speed", "default": 100 },
+    { "type": "checkbox", "id": "particles", "label": "Floating particles", "default": true },
+    { "type": "image_picker", "id": "fallback_image", "label": "Fallback image", "info": "Shown if WebGL is unavailable." },
+    { "type": "header", "content": "Background" },
+    { "type": "video", "id": "bg_video", "label": "Background video" },
+    { "type": "image_picker", "id": "bg_image", "label": "Background image" }
+  ],
+  "presets": [{ "name": "3D chrome hero" }]
+}
+{% endschema %}

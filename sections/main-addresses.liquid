@@ -1,0 +1,34 @@
+<section class="page-width section-pad account">
+  <p class="mono"><a href="{{ routes.account_url }}" class="link-underline">&larr; {{ 'customer.account' | t }}</a></p>
+  <h1 class="display-lg"><span class="chrome-text">{{ 'customer.addresses' | t }}</span></h1>
+  {%- paginate customer.addresses by 10 -%}
+    <div class="grid grid--3">
+      {%- for address in customer.addresses -%}
+        <div class="address mono">
+          {%- if address == customer.default_address -%}<span class="badge badge--chrome">{{ 'customer.default' | t }}</span>{%- endif -%}
+          {{ address | format_address }}
+          <form method="post" action="{{ routes.account_addresses_url }}/{{ address.id }}">
+            <input type="hidden" name="_method" value="delete">
+            <button type="submit" class="link-underline mono">{{ 'cart.remove' | t }}</button>
+          </form>
+        </div>
+      {%- endfor -%}
+    </div>
+  {%- endpaginate -%}
+  <h2 class="display-sm">{{ 'customer.add_address' | t }}</h2>
+  {%- form 'customer_address', customer.new_address, class: 'account-form' -%}
+    {%- if form.errors -%}<p class="form-msg form-msg--err mono">{{ form.errors | default_errors }}</p>{%- endif -%}
+    <label class="field-wrap"><span class="field-label mono">{{ 'customer.first_name' | t }}</span><input class="field" name="address[first_name]" value="{{ form.first_name }}" autocomplete="given-name"></label>
+    <label class="field-wrap"><span class="field-label mono">{{ 'customer.last_name' | t }}</span><input class="field" name="address[last_name]" value="{{ form.last_name }}" autocomplete="family-name"></label>
+    <label class="field-wrap"><span class="field-label mono">{{ 'customer.address1' | t }}</span><input class="field" name="address[address1]" value="{{ form.address1 }}" autocomplete="address-line1"></label>
+    <label class="field-wrap"><span class="field-label mono">{{ 'customer.city' | t }}</span><input class="field" name="address[city]" value="{{ form.city }}" autocomplete="address-level2"></label>
+    <label class="field-wrap"><span class="field-label mono">{{ 'customer.country' | t }}</span><select class="field" name="address[country]" autocomplete="country">{{ all_country_option_tags }}</select></label>
+    <label class="field-wrap"><span class="field-label mono">{{ 'customer.zip' | t }}</span><input class="field" name="address[zip]" value="{{ form.zip }}" autocomplete="postal-code"></label>
+    <label class="field-wrap"><span class="field-label mono">{{ 'customer.phone' | t }}</span><input class="field" type="tel" name="address[phone]" value="{{ form.phone }}" autocomplete="tel"></label>
+    <label class="pill"><input type="checkbox" name="address[default]" value="1"><span>{{ 'customer.set_default' | t }}</span></label>
+    <button class="chrome-btn"><span>{{ 'customer.add_address' | t }}</span></button>
+  {%- endform -%}
+</section>
+{% schema %}
+{ "name": "Addresses" }
+{% endschema %}

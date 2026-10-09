@@ -1,0 +1,27 @@
+{%- assign words = section.settings.text | split: ' ' -%}
+<section class="statement section-pad">
+  <div class="page-width">
+    {%- if section.settings.eyebrow != blank -%}<p class="eyebrow mono">{{ section.settings.eyebrow }}</p>{%- endif -%}
+    <p class="statement__text" data-scrub-words>
+      {%- for w in words -%}
+        <span class="statement__word">{{ w }}</span>{% unless forloop.last %} {% endunless %}
+      {%- endfor -%}
+    </p>
+    {%- if section.settings.button_label != blank -%}
+      <a href="{{ section.settings.button_link }}" class="ghost-btn reveal" data-magnetic><span>{{ section.settings.button_label }}</span></a>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Manifesto statement",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "MANIFESTO" },
+    { "type": "textarea", "id": "text", "label": "Statement", "info": "Words light up as visitors scroll.", "default": "WE BUILD ARTISTS, NOT ALGORITHMS. EVERY RECORD, EVERY SESSION, EVERY DROP IS MANUFACTURED IN-HOUSE AT FULL VOLUME." },
+    { "type": "text", "id": "button_label", "label": "Button label" },
+    { "type": "url", "id": "button_link", "label": "Button link" }
+  ],
+  "presets": [{ "name": "Manifesto statement" }]
+}
+{% endschema %}

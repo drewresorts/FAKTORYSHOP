@@ -1,0 +1,124 @@
+{
+  "sections": {
+    "title": {
+      "type": "page-hero",
+      "settings": {
+        "eyebrow": "RECORDING STUDIO"
+      }
+    },
+    "studio": {
+      "type": "studio-booking",
+      "blocks": {
+        "r1": {
+          "type": "room",
+          "settings": {
+            "name": "STUDIO A",
+            "rate_label": "$85/HR",
+            "rate": 85,
+            "features": "SSL CONSOLE\nATMOS 7.1.4\nISO BOOTH"
+          }
+        },
+        "r2": {
+          "type": "room",
+          "settings": {
+            "name": "STUDIO B",
+            "rate_label": "$55/HR",
+            "rate": 55,
+            "features": "WRITING ROOM\nVOCAL BOOTH\nANALOG SYNTH WALL"
+          }
+        },
+        "s1": {
+          "type": "spec",
+          "settings": {
+            "label": "CONSOLE",
+            "value": "SSL 4000"
+          }
+        },
+        "s2": {
+          "type": "spec",
+          "settings": {
+            "label": "MONITORING",
+            "value": "PMC / NS10"
+          }
+        },
+        "s3": {
+          "type": "spec",
+          "settings": {
+            "label": "FORMAT",
+            "value": "DOLBY ATMOS"
+          }
+        },
+        "s4": {
+          "type": "spec",
+          "settings": {
+            "label": "HOURS",
+            "value": "24 / 7"
+          }
+        }
+      },
+      "block_order": [
+        "r1",
+        "r2",
+        "s1",
+        "s2",
+        "s3",
+        "s4"
+      ],
+      "settings": {
+        "mode": "both",
+        "heading": "BOOK THE ROOM"
+      }
+    },
+    "content": {
+      "type": "main-page",
+      "settings": {}
+    },
+    "marquee": {
+      "type": "marquee",
+      "blocks": {
+        "w0": {
+          "type": "word",
+          "settings": {
+            "text": "TRACKING"
+          }
+        },
+        "w1": {
+          "type": "word",
+          "settings": {
+            "text": "MIXING"
+          }
+        },
+        "w2": {
+          "type": "word",
+          "settings": {
+            "text": "MASTERING"
+          }
+        },
+        "w3": {
+          "type": "word",
+          "settings": {
+            "text": "CONTENT"
+          }
+        }
+      },
+      "block_order": [
+        "w0",
+        "w1",
+        "w2",
+        "w3"
+      ],
+      "settings": {
+        "style": "chrome",
+        "speed": 30,
+        "reverse": false,
+        "skew": true
+      }
+    }
+  },
+  "order": [
+    "title",
+    "studio",
+    "content",
+    "marquee"
+  ]
+}

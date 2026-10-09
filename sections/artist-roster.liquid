@@ -1,0 +1,120 @@
+{%- liquid
+  assign layout = section.settings.layout
+  assign use_metaobjects = false
+  if section.blocks.size == 0 and shop.metaobjects.artist.values.size > 0
+    assign use_metaobjects = true
+  endif
+-%}
+<section class="roster roster--{{ layout }} section-pad" data-roster="{{ layout }}">
+  <div class="page-width section-head">
+    <div>
+      {%- if section.settings.eyebrow != blank -%}<p class="eyebrow mono">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2 class="display-lg reveal"><span class="chrome-text">{{ section.settings.heading }}</span></h2>
+    </div>
+    {%- if section.settings.link_label != blank -%}
+      <a class="link-underline mono" href="{{ section.settings.link }}">{{ section.settings.link_label }} {% render 'icon', icon: 'arrow' %}</a>
+    {%- endif -%}
+  </div>
+
+  {%- if layout == 'list' -%}
+    <ol class="roster-list page-width" role="list" data-hover-reveal>
+      {%- if use_metaobjects -%}
+        {%- for artist in shop.metaobjects.artist.values limit: section.settings.limit -%}
+          <li class="roster-list__item reveal" style="--i: {{ forloop.index0 }}" data-img="{% if artist.portrait.value != blank %}{{ artist.portrait.value | image_url: width: 700 }}{% endif %}">
+            <a href="{{ artist.system.url }}" class="roster-list__link">
+              <span class="mono roster-list__num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+              <span class="roster-list__name">{{ artist.name.value }}</span>
+              <span class="mono roster-list__role">{{ artist.genre.value }}</span>
+            </a>
+          </li>
+        {%- endfor -%}
+      {%- else -%}
+        {%- for block in section.blocks -%}
+          <li class="roster-list__item reveal" style="--i: {{ forloop.index0 }}" data-img="{% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 700 }}{% endif %}" {{ block.shopify_attributes }}>
+            <a href="{{ block.settings.link | default: '#' }}" class="roster-list__link">
+              <span class="mono roster-list__num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+              <span class="roster-list__name">{{ block.settings.name }}</span>
+              <span class="mono roster-list__role">{{ block.settings.role }}</span>
+            </a>
+          </li>
+        {%- endfor -%}
+      {%- endif -%}
+    </ol>
+    <div class="hover-reveal" aria-hidden="true"><img alt="" data-hover-img width="400" height="500"></div>
+  {%- else -%}
+    <div class="roster__viewport"{% if layout == 'rail' %} data-rail{% endif %}>
+      <div class="roster__track{% if layout == 'grid' %} page-width{% endif %}" data-rail-track>
+        {%- if use_metaobjects -%}
+          {%- for artist in shop.metaobjects.artist.values limit: section.settings.limit -%}
+            {%- liquid
+              assign a_img = artist.portrait.value
+              render 'artist-card', name: artist.name.value, role: artist.genre.value, image: a_img, url: artist.system.url, spotify: artist.spotify_url.value, instagram: artist.instagram_url.value, youtube: artist.youtube_url.value, index: forloop.index
+            -%}
+          {%- endfor -%}
+        {%- else -%}
+          {%- for block in section.blocks -%}
+            {%- liquid
+              assign attrs = block.shopify_attributes
+              render 'artist-card', name: block.settings.name, role: block.settings.role, image: block.settings.image, url: block.settings.link, spotify: block.settings.spotify, instagram: block.settings.instagram, youtube: block.settings.youtube, index: forloop.index, attrs: attrs
+            -%}
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Artist roster",
+  "class": "section-roster",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "ROSTER" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "THE ARTISTS" },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        { "value": "rail", "label": "Horizontal rail (scroll-driven)" },
+        { "value": "grid", "label": "Grid" },
+        { "value": "list", "label": "Giant name list with hover reveal" }
+      ],
+      "default": "rail"
+    },
+    { "type": "range", "id": "limit", "min": 2, "max": 24, "step": 1, "label": "Max artists (metaobject source)", "default": 12 },
+    { "type": "text", "id": "link_label", "label": "Link label", "default": "FULL ROSTER" },
+    { "type": "url", "id": "link", "label": "Link" },
+    {
+      "type": "paragraph",
+      "content": "Add artists as blocks below, or leave blocks empty to automatically list every entry of an \"artist\" metaobject (see README)."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "artist",
+      "name": "Artist",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Name", "default": "ARTIST NAME" },
+        { "type": "text", "id": "role", "label": "Genre / role", "default": "PRODUCER / VOCALIST" },
+        { "type": "image_picker", "id": "image", "label": "Portrait" },
+        { "type": "url", "id": "link", "label": "Artist page link" },
+        { "type": "url", "id": "spotify", "label": "Spotify" },
+        { "type": "url", "id": "instagram", "label": "Instagram" },
+        { "type": "url", "id": "youtube", "label": "YouTube" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Artist roster",
+      "blocks": [
+        { "type": "artist", "settings": { "name": "NOVA KRUZ", "role": "VOCALIST" } },
+        { "type": "artist", "settings": { "name": "STEEL_HALO", "role": "PRODUCER" } },
+        { "type": "artist", "settings": { "name": "MERCURY", "role": "DJ / LIVE" } },
+        { "type": "artist", "settings": { "name": "VXLT", "role": "RAP" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

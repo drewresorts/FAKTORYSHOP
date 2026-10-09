@@ -1,0 +1,34 @@
+<section class="page-width section-pad search-page">
+  <h1 class="display-xl"><span class="chrome-text">{{ 'general.search' | t }}</span></h1>
+  <form action="{{ routes.search_url }}" method="get" role="search" class="search-form">
+    <label for="SearchInput" class="visually-hidden">{{ 'general.search' | t }}</label>
+    <input id="SearchInput" type="search" name="q" value="{{ search.terms | escape }}" class="field field--xl" placeholder="{{ 'general.search_placeholder' | t }}" autofocus>
+    <button type="submit" class="chrome-btn"><span>{{ 'general.search' | t }}</span></button>
+  </form>
+  {%- if search.performed -%}
+    <p class="mono">{{ 'general.results' | t: count: search.results_count, terms: search.terms }}</p>
+    {%- paginate search.results by 24 -%}
+      <div class="grid grid--4">
+        {%- for item in search.results -%}
+          {%- if item.object_type == 'product' -%}
+            {% render 'product-card', product: item, index: forloop.index0 %}
+          {%- else -%}
+            <article class="tile tile--article reveal">
+              <a href="{{ item.url }}" class="tile__article-link">
+                <div class="tile__info">
+                  <span class="tile__kind mono">{{ item.object_type | upcase }}</span>
+                  <h2 class="tile__title">{{ item.title }}</h2>
+                </div>
+              </a>
+            </article>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+      {%- if paginate.pages > 1 -%}{% render 'pagination', paginate: paginate %}{%- endif -%}
+    {%- endpaginate -%}
+  {%- endif -%}
+</section>
+
+{% schema %}
+{ "name": "Search results" }
+{% endschema %}

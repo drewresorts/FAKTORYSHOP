@@ -1,0 +1,38 @@
+{%- comment -%}
+  Accepts:
+  - name, role, image, url, spotify, instagram, youtube, index
+  - attrs: optional block attributes string
+{%- endcomment -%}
+<article class="artist reveal" style="--i: {{ index | default: 0 }}" data-tilt-card {{ attrs }}>
+  {%- if url != blank -%}<a class="artist__link" href="{{ url }}">{%- else -%}<div class="artist__link">{%- endif -%}
+    <div class="artist__media media media--portrait">
+      {%- if image != blank -%}
+        {{
+          image
+          | image_url: width: 1000
+          | image_tag:
+            loading: 'lazy',
+            widths: '400, 600, 800, 1000',
+            sizes: '(min-width: 990px) 33vw, 80vw',
+            class: 'artist__img',
+            alt: name
+        }}
+      {%- else -%}
+        {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+      {%- endif -%}
+      <span class="card__glare" aria-hidden="true"></span>
+      <span class="artist__index mono">{{ index | prepend: '00' | slice: -2, 2 }}</span>
+    </div>
+    <div class="artist__info">
+      <h3 class="artist__name" data-scramble>{{ name | escape }}</h3>
+      {%- if role != blank -%}<p class="artist__role mono">{{ role | escape }}</p>{%- endif -%}
+    </div>
+  {%- if url != blank -%}</a>{%- else -%}</div>{%- endif -%}
+  {%- if spotify != blank or instagram != blank or youtube != blank -%}
+    <ul class="artist__socials mono" role="list">
+      {%- if spotify != blank -%}<li><a href="{{ spotify }}" target="_blank" rel="noopener">SPOTIFY</a></li>{%- endif -%}
+      {%- if instagram != blank -%}<li><a href="{{ instagram }}" target="_blank" rel="noopener">INSTAGRAM</a></li>{%- endif -%}
+      {%- if youtube != blank -%}<li><a href="{{ youtube }}" target="_blank" rel="noopener">YOUTUBE</a></li>{%- endif -%}
+    </ul>
+  {%- endif -%}
+</article>

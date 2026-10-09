@@ -1,0 +1,97 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "artist": {
+          "type": "artist",
+          "settings": {}
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "LIMITED RUN \u2014 NO RESTOCKS"
+          }
+        },
+        "buy": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_quantity": true,
+            "show_dynamic_checkout": true
+          }
+        },
+        "desc": {
+          "type": "description",
+          "settings": {}
+        },
+        "ship": {
+          "type": "collapsible",
+          "settings": {
+            "heading": "SHIPPING + RETURNS",
+            "content": "<p>Ships in 3\u20135 business days. Digital goods deliver instantly by email.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "title",
+        "price",
+        "artist",
+        "text",
+        "buy",
+        "desc",
+        "ship"
+      ],
+      "settings": {}
+    },
+    "marquee": {
+      "type": "marquee",
+      "blocks": {
+        "w0": {
+          "type": "word",
+          "settings": {
+            "text": "OFF THE LINE"
+          }
+        },
+        "w1": {
+          "type": "word",
+          "settings": {
+            "text": "FAKTORY GOODS"
+          }
+        }
+      },
+      "block_order": [
+        "w0",
+        "w1"
+      ],
+      "settings": {
+        "style": "chrome",
+        "speed": 30,
+        "reverse": false,
+        "skew": true
+      }
+    },
+    "related": {
+      "type": "featured-collection",
+      "settings": {
+        "eyebrow": "MORE",
+        "heading": "KEEP DIGGING",
+        "collection": "all",
+        "limit": 4,
+        "columns": "4"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "marquee",
+    "related"
+  ]
+}

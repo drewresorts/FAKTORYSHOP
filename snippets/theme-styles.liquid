@@ -1,0 +1,32 @@
+{%- liquid
+  case settings.type_display
+    when 'archivo'
+      assign display_font = "'Archivo Black', 'Arial Black', sans-serif"
+      assign display_tracking = '-0.04em'
+    when 'unbounded'
+      assign display_font = "'Unbounded', 'Arial Black', sans-serif"
+      assign display_tracking = '-0.03em'
+    else
+      assign display_font = "'Anton', 'Impact', sans-serif"
+      assign display_tracking = '-0.01em'
+  endcase
+-%}
+<style>
+  :root {
+    --c-bg: {{ settings.color_background }};
+    --c-bg-rgb: {{ settings.color_background.red }}, {{ settings.color_background.green }}, {{ settings.color_background.blue }};
+    --c-surface: {{ settings.color_surface }};
+    --c-fg: {{ settings.color_foreground }};
+    --c-fg-rgb: {{ settings.color_foreground.red }}, {{ settings.color_foreground.green }}, {{ settings.color_foreground.blue }};
+    --c-accent: {{ settings.color_accent }};
+    --chrome-light: {{ settings.chrome_light }};
+    --chrome-mid: {{ settings.chrome_mid }};
+    --chrome-dark: {{ settings.chrome_dark }};
+    --f-display: {{ display_font }};
+    --f-body: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+    --f-mono: 'JetBrains Mono', ui-monospace, monospace;
+    --display-tracking: {{ display_tracking }};
+    --display-scale: {{ settings.type_display_scale | default: 100 | divided_by: 100.0 }};
+    --logo-width: {{ settings.logo_width }}px;
+  }
+</style>

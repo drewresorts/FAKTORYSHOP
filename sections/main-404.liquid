@@ -1,0 +1,12 @@
+<section class="notfound section-pad">
+  <faktory-scene class="notfound__scene" data-shape="knot" data-iridescence="0.8" data-roughness="0.05" data-tint="#ffffff" data-spin="2" data-particles="true"></faktory-scene>
+  <div class="page-width notfound__body">
+    <h1 class="display-xxl" data-glitch><span class="chrome-text">404</span></h1>
+    <p class="mono">{{ 'general.404_text' | t }}</p>
+    <a href="{{ routes.root_url }}" class="chrome-btn" data-magnetic><span>{{ 'general.404_link' | t }}</span>{% render 'icon', icon: 'arrow' %}</a>
+  </div>
+</section>
+
+{% schema %}
+{ "name": "404" }
+{% endschema %}

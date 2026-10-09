@@ -1,0 +1,19 @@
+<section class="page-hero section-pad">
+  <div class="page-width">
+    {%- if section.settings.eyebrow != blank -%}<p class="eyebrow mono"><i class="live-dot"></i>{{ section.settings.eyebrow }}</p>{%- endif -%}
+    <h1 class="display-xl page-hero__title" data-glitch><span class="chrome-text">{{ section.settings.heading | default: page.title }}</span></h1>
+    {%- if section.settings.text != blank -%}<div class="rte page-hero__text reveal">{{ section.settings.text }}</div>{%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Page title",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "text", "id": "heading", "label": "Heading", "info": "Defaults to the page title." },
+    { "type": "richtext", "id": "text", "label": "Text" }
+  ],
+  "presets": [{ "name": "Page title" }]
+}
+{% endschema %}

@@ -1,0 +1,33 @@
+{%- layout none -%}
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>{{ 'gift_card.title' | t }} — {{ shop.name }}</title>
+    {% render 'theme-fonts' %}
+    {% render 'theme-styles' %}
+    {{ 'faktory.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'vendor/qrcode.js' | shopify_asset_url }}" defer></script>
+  </head>
+  <body class="template-gift-card">
+    <main class="page-width section-pad gift-card">
+      <p class="eyebrow mono">{{ shop.name }}</p>
+      <h1 class="display-xl"><span class="chrome-text">{{ gift_card.balance | money }}</span></h1>
+      {%- if gift_card.expired or gift_card.enabled == false -%}
+        <p class="badge badge--muted">{{ 'gift_card.expired' | t }}</p>
+      {%- endif -%}
+      <p class="mono">{{ 'gift_card.code' | t }}</p>
+      <p class="display-sm gift-card__code">{{ gift_card.code | format_code }}</p>
+      <div id="QrCode" data-identifier="{{ gift_card.qr_identifier }}"></div>
+      <p><a href="{{ shop.url }}" class="chrome-btn"><span>{{ 'gift_card.shop' | t }}</span></a></p>
+      {%- if gift_card.pass_url -%}<p><a href="{{ gift_card.pass_url }}"><img src="{{ 'gift-card/add-to-apple-wallet.svg' | shopify_asset_url }}" width="120" height="40" alt="Apple Wallet" loading="lazy"></a></p>{%- endif -%}
+    </main>
+    <script>
+      window.addEventListener('load', function () {
+        var el = document.getElementById('QrCode');
+        if (window.QRCode && el) new QRCode(el, { text: el.dataset.identifier, width: 160, height: 160 });
+      });
+    </script>
+  </body>
+</html>

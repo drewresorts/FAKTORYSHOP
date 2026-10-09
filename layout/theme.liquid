@@ -1,0 +1,96 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta name="theme-color" content="{{ settings.color_background }}">
+    <link rel="canonical" href="{{ canonical_url }}">
+
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 64, height: 64 }}">
+    {%- endif -%}
+
+    <title>
+      {{ page_title }}
+      {%- if current_tags %} &ndash; {{ 'general.tagged' | t: tags: current_tags | join: ', ' }}{% endif -%}
+      {%- if current_page != 1 %} &ndash; {{ 'general.page' | t: page: current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    </title>
+
+    {%- if page_description -%}
+      <meta name="description" content="{{ page_description | escape }}">
+    {%- endif -%}
+
+    {% render 'meta-tags' %}
+    {% render 'theme-fonts' %}
+    {% render 'theme-styles' %}
+
+    {{ 'faktory.css' | asset_url | stylesheet_tag }}
+
+    <script>
+      document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+      window.Faktory = {
+        routes: {
+          root: {{ routes.root_url | json }},
+          cart: {{ routes.cart_url | json }},
+          cartAdd: {{ routes.cart_add_url | json }},
+          cartChange: {{ routes.cart_change_url | json }}
+        },
+        moneyFormat: {{ shop.money_format | json }},
+        strings: {
+          addToCart: {{ 'products.product.add_to_cart' | t | json }},
+          soldOut: {{ 'products.product.sold_out' | t | json }},
+          unavailable: {{ 'products.product.unavailable' | t | json }},
+          added: {{ 'products.product.added' | t | json }},
+          cartEmpty: {{ 'cart.empty' | t | json }},
+          remove: {{ 'cart.remove' | t | json }},
+          error: {{ 'general.error' | t | json }}
+        },
+        settings: {
+          tilt: {{ settings.enable_tilt | json }},
+          cursor: {{ settings.enable_cursor | json }},
+          tiltIntensity: {{ settings.tilt_intensity | divided_by: 100.0 | json }}
+        }
+      };
+    </script>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "{{ 'three.module.min.js' | asset_url }}",
+          "three/addons/gltf-loader": "{{ 'three-gltf-loader.js' | asset_url }}",
+          "three/addons/buffer-geometry-utils": "{{ 'three-buffer-geometry-utils.js' | asset_url }}"
+        }
+      }
+    </script>
+    <script src="{{ 'faktory.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'faktory-3d.js' | asset_url }}" type="module"></script>
+
+    {{ content_for_header }}
+  </head>
+
+  <body class="template-{{ template.name | handleize }}{% if template.suffix %} template-{{ template.name }}--{{ template.suffix | handleize }}{% endif %}{% if settings.enable_grain %} has-grain{% endif %}{% if settings.chrome_style == 'holo' %} chrome-holo{% endif %}{% unless settings.enable_reveal %} no-reveal{% endunless %}">
+    <a class="skip-link visually-hidden" href="#MainContent">{{ 'accessibility.skip_to_text' | t }}</a>
+
+    {%- if settings.enable_cursor -%}
+      <div class="cursor" aria-hidden="true"><span class="cursor__dot"></span><span class="cursor__ring"></span></div>
+    {%- endif -%}
+
+    {% sections 'header-group' %}
+
+    <main id="MainContent" class="main" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+
+    {% sections 'footer-group' %}
+
+    {% render 'cart-drawer' %}
+
+    {%- if settings.enable_tilt -%}
+      <button type="button" class="tilt-permission chrome-btn" data-tilt-permission hidden>
+        <span>{{ 'general.enable_tilt' | t }}</span>
+      </button>
+    {%- endif -%}
+  </body>
+</html>

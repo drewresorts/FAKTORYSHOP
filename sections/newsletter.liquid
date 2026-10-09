@@ -1,0 +1,28 @@
+<section class="newsletter section-pad">
+  <div class="page-width newsletter__inner">
+    <h2 class="display-lg reveal"><span class="chrome-text">{{ section.settings.heading }}</span></h2>
+    {%- if section.settings.text != blank -%}<p class="mono">{{ section.settings.text }}</p>{%- endif -%}
+    {%- assign form_id = 'Newsletter-' | append: section.id -%}
+    {%- form 'customer', id: form_id, class: 'newsletter-form' -%}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      <div class="newsletter-form__row">
+        <label for="NewsletterEmail-{{ section.id }}" class="visually-hidden">{{ 'newsletter.label' | t }}</label>
+        <input id="NewsletterEmail-{{ section.id }}" type="email" name="contact[email]" required autocomplete="email" placeholder="{{ 'newsletter.placeholder' | t }}" class="field">
+        <button type="submit" class="chrome-btn" data-magnetic><span>{{ 'newsletter.button' | t }}</span></button>
+      </div>
+      {%- if form.posted_successfully? -%}<p class="form-msg form-msg--ok mono">{{ 'newsletter.success' | t }}</p>{%- endif -%}
+      {%- if form.errors -%}<p class="form-msg form-msg--err mono">{{ form.errors | default_errors }}</p>{%- endif -%}
+    {%- endform -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "GET ON THE LIST" },
+    { "type": "text", "id": "text", "label": "Text", "default": "EARLY ACCESS TO DROPS, TICKETS AND STUDIO OPENINGS." }
+  ],
+  "presets": [{ "name": "Newsletter" }]
+}
+{% endschema %}

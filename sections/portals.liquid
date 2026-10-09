@@ -1,0 +1,54 @@
+<section class="portals section-pad">
+  <div class="page-width">
+    {%- if section.settings.heading != blank -%}
+      <p class="eyebrow mono">{{ section.settings.heading }}</p>
+    {%- endif -%}
+    <div class="portals__grid">
+      {%- for block in section.blocks -%}
+        <a href="{{ block.settings.link }}" class="portal reveal" style="--i: {{ forloop.index0 }}" data-tilt-card {{ block.shopify_attributes }}>
+          {%- if block.settings.image != blank -%}
+            <div class="portal__bg">{{ block.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '400, 800, 1200', sizes: '(min-width: 990px) 25vw, 100vw' }}</div>
+          {%- endif -%}
+          <span class="portal__num mono">{{ forloop.index | prepend: '0' | slice: -2, 2 }} / {{ forloop.length | prepend: '0' | slice: -2, 2 }}</span>
+          <span class="portal__title chrome-text">{{ block.settings.title }}</span>
+          <span class="portal__text mono">{{ block.settings.text }}</span>
+          <span class="portal__arrow">{% render 'icon', icon: 'arrow' %}</span>
+          <span class="card__glare" aria-hidden="true"></span>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Portals",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "ENTER" }
+  ],
+  "max_blocks": 6,
+  "blocks": [
+    {
+      "type": "portal",
+      "name": "Portal",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "ARTISTS" },
+        { "type": "text", "id": "text", "label": "Text", "default": "THE ROSTER" },
+        { "type": "url", "id": "link", "label": "Link" },
+        { "type": "image_picker", "id": "image", "label": "Hover image" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Portals",
+      "blocks": [
+        { "type": "portal", "settings": { "title": "ARTISTS", "text": "THE ROSTER" } },
+        { "type": "portal", "settings": { "title": "STUDIO", "text": "BOOK A SESSION" } },
+        { "type": "portal", "settings": { "title": "MERCH", "text": "SHOP THE DROP" } },
+        { "type": "portal", "settings": { "title": "MEDIA", "text": "WATCH + LISTEN" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

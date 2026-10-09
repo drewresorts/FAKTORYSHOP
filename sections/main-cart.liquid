@@ -1,0 +1,51 @@
+<section class="cart-page page-width section-pad">
+  <h1 class="display-xl"><span class="chrome-text">{{ 'cart.title' | t }}</span></h1>
+  {%- if cart.item_count > 0 -%}
+    <form action="{{ routes.cart_url }}" method="post" class="cart-page__form">
+      <ul class="cart-lines" role="list">
+        {%- for item in cart.items -%}
+          <li class="cart-line">
+            <a href="{{ item.url }}" class="cart-line__img">
+              {%- if item.image -%}{{ item.image | image_url: width: 300 | image_tag: loading: 'lazy', alt: item.title }}{%- endif -%}
+            </a>
+            <div class="cart-line__info">
+              <a href="{{ item.url }}" class="cart-line__title">{{ item.product.title }}</a>
+              {%- unless item.product.has_only_default_variant -%}<p class="mono">{{ item.variant.title }}</p>{%- endunless -%}
+              {%- for p in item.properties -%}
+                {%- assign first_char = p.first | slice: 0 -%}
+                {%- if p.last != blank and first_char != '_' -%}<p class="mono cart-line__prop">{{ p.first }}: {{ p.last }}</p>{%- endif -%}
+              {%- endfor -%}
+              <p class="mono">{{ item.final_price | money }}</p>
+            </div>
+            <div class="cart-line__qty">
+              <label class="visually-hidden" for="Qty-{{ forloop.index }}">{{ 'products.product.quantity' | t }}</label>
+              <input id="Qty-{{ forloop.index }}" class="field field--sm" type="number" name="updates[]" value="{{ item.quantity }}" min="0">
+              <a href="{{ item.url_to_remove }}" class="link-underline mono">{{ 'cart.remove' | t }}</a>
+            </div>
+            <div class="cart-line__total">{{ item.final_line_price | money }}</div>
+          </li>
+        {%- endfor -%}
+      </ul>
+      <div class="cart-page__summary">
+        <label class="field-wrap">
+          <span class="field-label mono">{{ 'cart.note' | t }}</span>
+          <textarea class="field" name="note" rows="3">{{ cart.note }}</textarea>
+        </label>
+        <div class="drawer__subtotal"><span class="mono">{{ 'cart.subtotal' | t }}</span><span class="display-sm">{{ cart.total_price | money }}</span></div>
+        <p class="mono drawer__note">{{ 'cart.taxes_note' | t }}</p>
+        <div class="cart-page__btns">
+          <button type="submit" name="update" class="ghost-btn"><span>{{ 'cart.update' | t }}</span></button>
+          <button type="submit" name="checkout" class="chrome-btn"><span>{{ 'cart.checkout' | t }}</span></button>
+        </div>
+        {%- if additional_checkout_buttons -%}<div class="cart-page__extra">{{ content_for_additional_checkout_buttons }}</div>{%- endif -%}
+      </div>
+    </form>
+  {%- else -%}
+    <p class="mono empty-state">{{ 'cart.empty' | t }}</p>
+    <a href="{{ routes.all_products_collection_url }}" class="chrome-btn"><span>{{ 'cart.continue' | t }}</span></a>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{ "name": "Cart" }
+{% endschema %}

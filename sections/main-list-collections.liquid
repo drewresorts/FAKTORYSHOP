@@ -1,0 +1,27 @@
+<section class="section-pad">
+  <div class="page-width collection__head">
+    <h1 class="display-xl"><span class="chrome-text">{{ section.settings.heading }}</span></h1>
+  </div>
+  <div class="page-width portals__grid">
+    {%- for collection in collections -%}
+      {%- if collection.handle != 'frontpage' -%}
+        <a href="{{ collection.url }}" class="portal reveal" style="--i: {{ forloop.index0 }}" data-tilt-card>
+          {%- if collection.featured_image -%}
+            <div class="portal__bg">{{ collection.featured_image | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '400, 700, 1000', sizes: '(min-width: 990px) 25vw, 100vw' }}</div>
+          {%- endif -%}
+          <span class="portal__num mono">{{ collection.products_count }} {{ 'collections.items' | t }}</span>
+          <span class="portal__title chrome-text">{{ collection.title }}</span>
+          <span class="portal__arrow">{% render 'icon', icon: 'arrow' %}</span>
+          <span class="card__glare" aria-hidden="true"></span>
+        </a>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collections list",
+  "settings": [{ "type": "text", "id": "heading", "label": "Heading", "default": "ALL DEPARTMENTS" }]
+}
+{% endschema %}

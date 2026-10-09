@@ -1,0 +1,36 @@
+<section class="split section-pad{% if section.settings.reverse %} split--reverse{% endif %}">
+  <div class="page-width split__inner">
+    <div class="split__media media media--portrait reveal" data-parallax="0.15" data-tilt-card>
+      {%- if section.settings.image != blank -%}
+        {{ section.settings.image | image_url: width: 1600 | image_tag: loading: 'lazy', widths: '600, 900, 1200, 1600', sizes: '(min-width: 990px) 50vw, 100vw' }}
+      {%- else -%}
+        {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+      {%- endif -%}
+      <span class="card__glare" aria-hidden="true"></span>
+    </div>
+    <div class="split__body">
+      {%- if section.settings.eyebrow != blank -%}<p class="eyebrow mono">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2 class="display-lg reveal"><span class="chrome-text">{{ section.settings.heading }}</span></h2>
+      <div class="rte reveal">{{ section.settings.text }}</div>
+      {%- if section.settings.button_label != blank -%}
+        <a href="{{ section.settings.button_link }}" class="chrome-btn reveal" data-magnetic><span>{{ section.settings.button_label }}</span>{% render 'icon', icon: 'arrow' %}</a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Split feature",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "checkbox", "id": "reverse", "label": "Image on right", "default": false },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THE LABEL" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "INDEPENDENT. LOUD." },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Artist development, distribution, publishing and sync — built around the people making the music.</p>" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "ABOUT THE LABEL" },
+    { "type": "url", "id": "button_link", "label": "Button link" }
+  ],
+  "presets": [{ "name": "Split feature" }]
+}
+{% endschema %}

@@ -1,0 +1,338 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero-3d",
+      "settings": {
+        "shape": "blob",
+        "button_link": "/pages/studio",
+        "button2_link": "/collections/all"
+      }
+    },
+    "marquee": {
+      "type": "marquee",
+      "blocks": {
+        "w0": {
+          "type": "word",
+          "settings": {
+            "text": "RECORDS"
+          }
+        },
+        "w1": {
+          "type": "word",
+          "settings": {
+            "text": "STUDIO"
+          }
+        },
+        "w2": {
+          "type": "word",
+          "settings": {
+            "text": "MERCH"
+          }
+        },
+        "w3": {
+          "type": "word",
+          "settings": {
+            "text": "MEDIA"
+          }
+        }
+      },
+      "block_order": [
+        "w0",
+        "w1",
+        "w2",
+        "w3"
+      ],
+      "settings": {
+        "style": "chrome",
+        "speed": 30,
+        "reverse": false,
+        "skew": true
+      }
+    },
+    "portals": {
+      "type": "portals",
+      "blocks": {
+        "p1": {
+          "type": "portal",
+          "settings": {
+            "title": "ARTISTS",
+            "text": "THE ROSTER",
+            "link": "/pages/artists"
+          }
+        },
+        "p2": {
+          "type": "portal",
+          "settings": {
+            "title": "STUDIO",
+            "text": "BOOK A SESSION",
+            "link": "/pages/studio"
+          }
+        },
+        "p3": {
+          "type": "portal",
+          "settings": {
+            "title": "MERCH",
+            "text": "SHOP THE DROP",
+            "link": "/collections/all"
+          }
+        },
+        "p4": {
+          "type": "portal",
+          "settings": {
+            "title": "MEDIA",
+            "text": "WATCH + LISTEN",
+            "link": "/pages/media"
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "p4"
+      ],
+      "settings": {
+        "heading": "ENTER"
+      }
+    },
+    "roster": {
+      "type": "artist-roster",
+      "blocks": {
+        "a1": {
+          "type": "artist",
+          "settings": {
+            "name": "NOVA KRUZ",
+            "role": "VOCALIST"
+          }
+        },
+        "a2": {
+          "type": "artist",
+          "settings": {
+            "name": "STEEL_HALO",
+            "role": "PRODUCER"
+          }
+        },
+        "a3": {
+          "type": "artist",
+          "settings": {
+            "name": "MERCURY",
+            "role": "DJ / LIVE"
+          }
+        },
+        "a4": {
+          "type": "artist",
+          "settings": {
+            "name": "VXLT",
+            "role": "RAP"
+          }
+        },
+        "a5": {
+          "type": "artist",
+          "settings": {
+            "name": "CHROMA",
+            "role": "ELECTRONIC"
+          }
+        }
+      },
+      "block_order": [
+        "a1",
+        "a2",
+        "a3",
+        "a4",
+        "a5"
+      ],
+      "settings": {
+        "eyebrow": "ROSTER",
+        "heading": "THE ARTISTS",
+        "layout": "rail",
+        "link_label": "FULL ROSTER",
+        "link": "/pages/artists"
+      }
+    },
+    "statement": {
+      "type": "statement",
+      "settings": {}
+    },
+    "merch": {
+      "type": "featured-collection",
+      "settings": {
+        "collection": "all",
+        "limit": 8,
+        "columns": "4"
+      }
+    },
+    "marquee_2": {
+      "type": "marquee",
+      "blocks": {
+        "w0": {
+          "type": "word",
+          "settings": {
+            "text": "BOOK NOW"
+          }
+        },
+        "w1": {
+          "type": "word",
+          "settings": {
+            "text": "24/7"
+          }
+        },
+        "w2": {
+          "type": "word",
+          "settings": {
+            "text": "ATMOS"
+          }
+        },
+        "w3": {
+          "type": "word",
+          "settings": {
+            "text": "LIVE ROOMS"
+          }
+        }
+      },
+      "block_order": [
+        "w0",
+        "w1",
+        "w2",
+        "w3"
+      ],
+      "settings": {
+        "style": "inverse",
+        "speed": 30,
+        "reverse": true,
+        "skew": true
+      }
+    },
+    "studio": {
+      "type": "studio-booking",
+      "blocks": {
+        "r1": {
+          "type": "room",
+          "settings": {
+            "name": "STUDIO A",
+            "rate_label": "$85/HR",
+            "rate": 85,
+            "features": "SSL CONSOLE\nATMOS 7.1.4\nISO BOOTH"
+          }
+        },
+        "r2": {
+          "type": "room",
+          "settings": {
+            "name": "STUDIO B",
+            "rate_label": "$55/HR",
+            "rate": 55,
+            "features": "WRITING ROOM\nVOCAL BOOTH\nANALOG SYNTH WALL"
+          }
+        },
+        "s1": {
+          "type": "spec",
+          "settings": {
+            "label": "CONSOLE",
+            "value": "SSL 4000"
+          }
+        },
+        "s2": {
+          "type": "spec",
+          "settings": {
+            "label": "MONITORING",
+            "value": "PMC / NS10"
+          }
+        },
+        "s3": {
+          "type": "spec",
+          "settings": {
+            "label": "FORMAT",
+            "value": "DOLBY ATMOS"
+          }
+        },
+        "s4": {
+          "type": "spec",
+          "settings": {
+            "label": "HOURS",
+            "value": "24 / 7"
+          }
+        }
+      },
+      "block_order": [
+        "r1",
+        "r2",
+        "s1",
+        "s2",
+        "s3",
+        "s4"
+      ],
+      "settings": {
+        "mode": "both",
+        "heading": "BOOK THE ROOM"
+      }
+    },
+    "hub": {
+      "type": "content-hub",
+      "blocks": {
+        "v1": {
+          "type": "video",
+          "settings": {
+            "title": "STUDIO SESSIONS EP. 01",
+            "label": "VIDEO",
+            "size": "lg"
+          }
+        },
+        "au": {
+          "type": "audio",
+          "settings": {
+            "title": "FAKTORY RADIO 001",
+            "label": "PODCAST",
+            "size": "md"
+          }
+        },
+        "lv": {
+          "type": "live",
+          "settings": {
+            "title": "LIVE FROM STUDIO A",
+            "schedule": "EVERY FRIDAY 21:00",
+            "is_live": true,
+            "size": "sm"
+          }
+        },
+        "bl": {
+          "type": "blog",
+          "settings": {
+            "blog": "news",
+            "limit": 3
+          }
+        }
+      },
+      "block_order": [
+        "v1",
+        "au",
+        "lv",
+        "bl"
+      ],
+      "settings": {
+        "heading": "TRANSMISSIONS"
+      }
+    },
+    "split": {
+      "type": "split-feature",
+      "settings": {
+        "button_link": "/pages/about"
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {}
+    }
+  },
+  "order": [
+    "hero",
+    "marquee",
+    "portals",
+    "roster",
+    "statement",
+    "merch",
+    "marquee_2",
+    "studio",
+    "hub",
+    "split",
+    "newsletter"
+  ]
+}

@@ -1,0 +1,150 @@
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign has_model = false
+  for m in product.media
+    if m.media_type == 'model'
+      assign has_model = true
+    endif
+  endfor
+-%}
+<section class="product page-width section-pad" data-product data-section="{{ section.id }}">
+  <div class="product__media-col">
+    <div class="product__gallery" data-gallery>
+      {%- for media in product.media -%}
+        <figure class="product__media product__media--{{ media.media_type }}{% if media.media_type == 'image' %} reveal{% endif %}" data-media-id="{{ media.id }}">
+          {%- case media.media_type -%}
+            {%- when 'image' -%}
+              {%- liquid
+                assign img_loading = 'lazy'
+                if forloop.first
+                  assign img_loading = 'eager'
+                endif
+              -%}
+              {{ media | image_url: width: 1800 | image_tag: loading: img_loading, widths: '600, 900, 1200, 1800', sizes: '(min-width: 990px) 55vw, 100vw', class: 'product__img', alt: media.alt }}
+            {%- when 'model' -%}
+              <div class="product__model">
+                {{ media | model_viewer_tag: image_size: '1600x', reveal: 'auto', toggleable: false, data-model-id: media.id }}
+                <span class="product__model-hint mono">{% render 'icon', icon: '3d' %} {{ 'products.product.drag_3d' | t }}</span>
+              </div>
+            {%- when 'external_video' -%}
+              <div class="product__video">{{ media | external_video_tag: loading: 'lazy' }}</div>
+            {%- when 'video' -%}
+              <div class="product__video">{{ media | video_tag: controls: true, playsinline: true, muted: true, loop: true, autoplay: true }}</div>
+          {%- endcase -%}
+        </figure>
+      {%- else -%}
+        <figure class="product__media">{{ 'product-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}</figure>
+      {%- endfor -%}
+    </div>
+  </div>
+
+  <div class="product__info-col">
+    <div class="product__sticky">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'title' -%}
+            <div {{ block.shopify_attributes }}>
+              {%- if product.vendor != blank -%}<p class="eyebrow mono">{{ product.vendor }}</p>{%- endif -%}
+              <h1 class="product__title display-md"><span class="chrome-text">{{ product.title | escape }}</span></h1>
+            </div>
+          {%- when 'price' -%}
+            <div class="product__price" {{ block.shopify_attributes }}>{% render 'price', product: product %}</div>
+          {%- when 'text' -%}
+            <p class="mono product__note" {{ block.shopify_attributes }}>{{ block.settings.text }}</p>
+          {%- when 'description' -%}
+            <div class="rte product__desc" {{ block.shopify_attributes }}>{{ product.description }}</div>
+          {%- when 'buy_buttons' -%}
+            {%- assign form_id = 'ProductForm-' | append: section.id -%}
+            {%- form 'product', product, id: form_id, class: 'product-form', data-product-form: 'true' -%}
+              <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-input>
+
+              {%- unless product.has_only_default_variant -%}
+                {%- for option in product.options_with_values -%}
+                  <fieldset class="option" data-option-index="{{ forloop.index0 }}">
+                    <legend class="field-label mono">{{ option.name }}: <b data-option-value>{{ option.selected_value }}</b></legend>
+                    <div class="option__values">
+                      {%- for value in option.values -%}
+                        <label class="pill">
+                          <input type="radio" name="option-{{ option.position }}" value="{{ value | escape }}"{% if option.selected_value == value %} checked{% endif %}>
+                          <span>{{ value }}</span>
+                        </label>
+                      {%- endfor -%}
+                    </div>
+                  </fieldset>
+                {%- endfor -%}
+              {%- endunless -%}
+
+              {%- if block.settings.show_quantity -%}
+                <div class="field-wrap">
+                  <span class="field-label mono">{{ 'products.product.quantity' | t }}</span>
+                  <div class="stepper">
+                    <button type="button" class="stepper__btn" data-step="-1" aria-label="-">{% render 'icon', icon: 'minus' %}</button>
+                    <input class="field stepper__input" type="number" name="quantity" min="1" value="1">
+                    <button type="button" class="stepper__btn" data-step="1" aria-label="+">{% render 'icon', icon: 'plus' %}</button>
+                  </div>
+                </div>
+              {%- endif -%}
+
+              <button type="submit" name="add" class="chrome-btn chrome-btn--block" data-add-btn{% unless current_variant.available %} disabled{% endunless %}>
+                <span data-add-label>{%- if current_variant.available -%}{{ 'products.product.add_to_cart' | t }}{%- else -%}{{ 'products.product.sold_out' | t }}{%- endif -%}</span>
+              </button>
+              {%- if block.settings.show_dynamic_checkout -%}
+                <div class="product-form__dynamic">{{ form | payment_button }}</div>
+              {%- endif -%}
+              <p class="form-msg form-msg--err mono" data-form-error hidden></p>
+            {%- endform -%}
+            <script type="application/json" data-product-json>{{ product | json }}</script>
+          {%- when 'collapsible' -%}
+            <details class="accordion" {{ block.shopify_attributes }}>
+              <summary class="mono">{{ block.settings.heading }} <span>{% render 'icon', icon: 'plus' %}</span></summary>
+              <div class="rte">{{ block.settings.content }}{{ block.settings.page.content }}</div>
+            </details>
+          {%- when 'artist' -%}
+            {%- assign artist_ref = product.metafields.custom.artist.value -%}
+            {%- if artist_ref != blank -%}
+              <a href="{{ artist_ref.system.url }}" class="product__artist" {{ block.shopify_attributes }}>
+                <span class="mono">{{ 'products.product.by_artist' | t }}</span>
+                <span class="display-sm chrome-text">{{ artist_ref.name.value }}</span>
+              </a>
+            {%- endif -%}
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{%- if has_model -%}
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Product",
+  "class": "section-product",
+  "blocks": [
+    { "type": "title", "name": "Title", "limit": 1 },
+    { "type": "price", "name": "Price", "limit": 1 },
+    { "type": "artist", "name": "Artist link", "limit": 1, "settings": [{ "type": "paragraph", "content": "Shows the artist from the product metafield custom.artist (metaobject reference)." }] },
+    { "type": "description", "name": "Description", "limit": 1 },
+    { "type": "text", "name": "Text", "settings": [{ "type": "text", "id": "text", "label": "Text", "default": "LIMITED RUN — NO RESTOCKS" }] },
+    {
+      "type": "buy_buttons",
+      "name": "Buy buttons",
+      "limit": 1,
+      "settings": [
+        { "type": "checkbox", "id": "show_quantity", "label": "Show quantity", "default": true },
+        { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Show dynamic checkout buttons", "default": true }
+      ]
+    },
+    {
+      "type": "collapsible",
+      "name": "Collapsible tab",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "SHIPPING + RETURNS" },
+        { "type": "richtext", "id": "content", "label": "Content" },
+        { "type": "page", "id": "page", "label": "Content from page" }
+      ]
+    }
+  ]
+}
+{% endschema %}

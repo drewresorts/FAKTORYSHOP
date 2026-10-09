@@ -1,0 +1,20 @@
+{%- comment -%}
+  Renders a price block.
+  Accepts:
+  - product: {Object} product
+{%- endcomment -%}
+{%- liquid
+  assign target = product.selected_or_first_available_variant
+  assign compare_at = target.compare_at_price
+  assign on_sale = false
+  if compare_at > target.price
+    assign on_sale = true
+  endif
+-%}
+<div class="price{% if on_sale %} price--sale{% endif %}{% unless target.available %} price--sold-out{% endunless %}" data-price>
+  {%- if product.price_varies and request.page_type != 'product' -%}
+    <span class="price__from">{{ 'products.product.from' | t }}</span>
+  {%- endif -%}
+  <span class="price__current" data-price-current>{{ target.price | money }}</span>
+  <s class="price__compare" data-price-compare{% unless on_sale %} hidden{% endunless %}>{{ compare_at | money }}</s>
+</div>

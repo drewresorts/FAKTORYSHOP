@@ -1,0 +1,128 @@
+{
+  "sections": {
+    "title": {
+      "type": "page-hero",
+      "settings": {
+        "eyebrow": "ROSTER"
+      }
+    },
+    "roster": {
+      "type": "artist-roster",
+      "blocks": {
+        "a1": {
+          "type": "artist",
+          "settings": {
+            "name": "NOVA KRUZ",
+            "role": "VOCALIST"
+          }
+        },
+        "a2": {
+          "type": "artist",
+          "settings": {
+            "name": "STEEL_HALO",
+            "role": "PRODUCER"
+          }
+        },
+        "a3": {
+          "type": "artist",
+          "settings": {
+            "name": "MERCURY",
+            "role": "DJ / LIVE"
+          }
+        },
+        "a4": {
+          "type": "artist",
+          "settings": {
+            "name": "VXLT",
+            "role": "RAP"
+          }
+        },
+        "a5": {
+          "type": "artist",
+          "settings": {
+            "name": "CHROMA",
+            "role": "ELECTRONIC"
+          }
+        }
+      },
+      "block_order": [
+        "a1",
+        "a2",
+        "a3",
+        "a4",
+        "a5"
+      ],
+      "settings": {
+        "eyebrow": "",
+        "heading": "SIGNED",
+        "layout": "list",
+        "link_label": "",
+        "link": "/pages/artists"
+      }
+    },
+    "grid": {
+      "type": "artist-roster",
+      "blocks": {
+        "a1": {
+          "type": "artist",
+          "settings": {
+            "name": "NOVA KRUZ",
+            "role": "VOCALIST"
+          }
+        },
+        "a2": {
+          "type": "artist",
+          "settings": {
+            "name": "STEEL_HALO",
+            "role": "PRODUCER"
+          }
+        },
+        "a3": {
+          "type": "artist",
+          "settings": {
+            "name": "MERCURY",
+            "role": "DJ / LIVE"
+          }
+        },
+        "a4": {
+          "type": "artist",
+          "settings": {
+            "name": "VXLT",
+            "role": "RAP"
+          }
+        },
+        "a5": {
+          "type": "artist",
+          "settings": {
+            "name": "CHROMA",
+            "role": "ELECTRONIC"
+          }
+        }
+      },
+      "block_order": [
+        "a1",
+        "a2",
+        "a3",
+        "a4",
+        "a5"
+      ],
+      "settings": {
+        "eyebrow": "PROFILES",
+        "heading": "ALL ARTISTS",
+        "layout": "grid",
+        "link_label": "",
+        "link": "/pages/artists"
+      }
+    },
+    "content": {
+      "type": "main-page",
+      "settings": {}
+    }
+  },
+  "order": [
+    "title",
+    "roster",
+    "grid",
+    "content"
+  ]
+}

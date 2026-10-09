@@ -1,0 +1,26 @@
+<div class="drawer" data-cart-drawer aria-hidden="true">
+  <div class="drawer__overlay" data-cart-close></div>
+  <aside class="drawer__panel" role="dialog" aria-modal="true" aria-labelledby="CartDrawerTitle" tabindex="-1">
+    <header class="drawer__head">
+      <h2 id="CartDrawerTitle" class="drawer__title chrome-text">{{ 'cart.title' | t }}</h2>
+      <span class="drawer__count mono" data-cart-count>{{ cart.item_count }}</span>
+      <button type="button" class="icon-btn" data-cart-close aria-label="{{ 'accessibility.close' | t }}">
+        {% render 'icon', icon: 'close' %}
+      </button>
+    </header>
+    <div class="drawer__body" data-cart-items></div>
+    <footer class="drawer__foot">
+      <div class="drawer__subtotal">
+        <span class="mono">{{ 'cart.subtotal' | t }}</span>
+        <span data-cart-subtotal>{{ cart.total_price | money }}</span>
+      </div>
+      <p class="drawer__note mono">{{ 'cart.taxes_note' | t }}</p>
+      <form action="{{ routes.cart_url }}" method="post">
+        <button type="submit" name="checkout" class="chrome-btn chrome-btn--block">
+          <span>{{ 'cart.checkout' | t }}</span>
+        </button>
+      </form>
+      <a href="{{ routes.cart_url }}" class="link-underline mono">{{ 'cart.view_cart' | t }}</a>
+    </footer>
+  </aside>
+</div>
