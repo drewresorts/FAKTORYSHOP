@@ -25,8 +25,8 @@
         "model_url": "",
         "keep_materials": false,
         "iridescence": 100,
-        "roughness": 32,
-        "tint": "#70FF96",
+        "roughness": 60,
+        "tint": "#FFFFFF",
         "spin": 160,
         "particles": true
       }
