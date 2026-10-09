@@ -1,0 +1,15 @@
+{%- liquid
+  assign socials = 'instagram,tiktok,youtube,spotify,soundcloud,twitter,twitch' | split: ','
+-%}
+<ul class="social-links" role="list">
+  {%- for s in socials -%}
+    {%- assign key = 'social_' | append: s -%}
+    {%- if settings[key] != blank -%}
+      <li>
+        <a href="{{ settings[key] }}" target="_blank" rel="noopener" class="social-links__link" data-scramble>
+          {{- s | upcase -}}
+        </a>
+      </li>
+    {%- endif -%}
+  {%- endfor -%}
+</ul>

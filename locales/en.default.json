@@ -1,0 +1,151 @@
+{
+  "general": {
+    "search": "Search",
+    "search_placeholder": "Search the Faktory",
+    "results": {
+      "one": "{{ count }} result for “{{ terms }}”",
+      "other": "{{ count }} results for “{{ terms }}”"
+    },
+    "tagged": "Tagged \"{{ tags }}\"",
+    "page": "Page {{ page }}",
+    "pagination": "Pagination",
+    "prev": "Prev",
+    "next": "Next",
+    "error": "Something went wrong. Try again.",
+    "cancel": "Cancel",
+    "enable_tilt": "Tilt your phone — enable chrome motion",
+    "404_text": "This page fell off the production line.",
+    "404_link": "Back to the floor",
+    "password_enter": "Enter with password",
+    "enter": "Enter"
+  },
+  "accessibility": {
+    "skip_to_text": "Skip to content",
+    "main_nav": "Main navigation",
+    "menu": "Menu",
+    "close": "Close"
+  },
+  "newsletter": {
+    "label": "Email",
+    "placeholder": "YOUR@EMAIL.COM",
+    "button": "Subscribe",
+    "success": "You're on the list."
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Add to cart",
+      "added": "Added ✦",
+      "sold_out": "Sold out",
+      "unavailable": "Unavailable",
+      "on_sale": "Sale",
+      "from": "From",
+      "quantity": "Quantity",
+      "digital": "Digital",
+      "drag_3d": "Drag to rotate · pinch to zoom",
+      "by_artist": "Artist"
+    }
+  },
+  "collections": {
+    "label": "Collection",
+    "items": "items",
+    "sort": "Sort",
+    "apply": "Apply",
+    "empty": "Nothing on the line yet."
+  },
+  "cart": {
+    "title": "Cart",
+    "empty": "Your cart is empty.",
+    "remove": "Remove",
+    "subtotal": "Subtotal",
+    "taxes_note": "Taxes and shipping calculated at checkout",
+    "checkout": "Checkout",
+    "view_cart": "View cart",
+    "update": "Update",
+    "note": "Order note",
+    "continue": "Continue shopping"
+  },
+  "blogs": {
+    "label": "Journal",
+    "back": "Back"
+  },
+  "customer": {
+    "account": "Account",
+    "login": "Log in",
+    "sign_in": "Sign in",
+    "create": "Create account",
+    "forgot": "Forgot password?",
+    "reset": "Reset password",
+    "recover_success": "Check your email for a reset link.",
+    "email": "Email",
+    "password": "Password",
+    "password_confirm": "Confirm password",
+    "first_name": "First name",
+    "last_name": "Last name",
+    "log_out": "Log out",
+    "addresses": "Addresses",
+    "add_address": "Add address",
+    "address1": "Address",
+    "city": "City",
+    "country": "Country",
+    "zip": "Postal code",
+    "phone": "Phone",
+    "set_default": "Set as default",
+    "default": "Default",
+    "orders": "Orders",
+    "no_orders": "No orders yet.",
+    "date": "Date",
+    "status": "Status",
+    "total": "Total",
+    "product": "Product",
+    "shipping": "Shipping address",
+    "activate": "Activate account"
+  },
+  "gift_card": {
+    "title": "Gift card",
+    "code": "Your code",
+    "expired": "Expired",
+    "shop": "Shop now"
+  },
+  "sections": {
+    "hero": {
+      "drag_hint": "Drag to spin · tap to pulse",
+      "scroll": "Scroll"
+    },
+    "featured_collection": {
+      "view_all": "View all",
+      "placeholder_title": "Faktory tee"
+    },
+    "hub": {
+      "all": "All",
+      "play": "Play",
+      "live_now": "Live now",
+      "offline": "Offline",
+      "kind_video": "Video",
+      "kind_audio": "Audio",
+      "kind_editorial": "Editorial",
+      "kind_live": "Live",
+      "kind_digital": "Digital"
+    },
+    "studio": {
+      "book_room": "Book this room",
+      "room": "Room",
+      "date": "Date",
+      "start": "Start time",
+      "hours": "Hours",
+      "project": "Project",
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "notes": "Notes",
+      "notes_placeholder": "Engineer needed? Gear requests? References?",
+      "estimate": "Estimated",
+      "submit": "Request session",
+      "deposit": "Book + pay now",
+      "success_title": "Request received",
+      "success_text": "We'll confirm your session within 24 hours."
+    },
+    "artist": {
+      "merch": "Artist merch"
+    }
+  }
+}

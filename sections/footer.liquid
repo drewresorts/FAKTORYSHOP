@@ -1,0 +1,101 @@
+<footer class="footer">
+  <div class="footer__top page-width">
+    <div class="footer__col footer__col--lead">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="footer__heading display-sm">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.show_newsletter -%}
+        {%- form 'customer', class: 'newsletter-form' -%}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <label for="FooterEmail" class="visually-hidden">{{ 'newsletter.label' | t }}</label>
+          <div class="newsletter-form__row">
+            <input id="FooterEmail" type="email" name="contact[email]" required autocomplete="email" placeholder="{{ 'newsletter.placeholder' | t }}" class="field">
+            <button type="submit" class="chrome-btn"><span>{{ 'newsletter.button' | t }}</span></button>
+          </div>
+          {%- if form.posted_successfully? -%}
+            <p class="form-msg form-msg--ok mono">{{ 'newsletter.success' | t }}</p>
+          {%- endif -%}
+          {%- if form.errors -%}
+            <p class="form-msg form-msg--err mono">{{ form.errors | default_errors }}</p>
+          {%- endif -%}
+        {%- endform -%}
+      {%- endif -%}
+    </div>
+
+    {%- for block in section.blocks -%}
+      <div class="footer__col" {{ block.shopify_attributes }}>
+        {%- case block.type -%}
+          {%- when 'menu' -%}
+            <h3 class="footer__label mono">{{ block.settings.heading }}</h3>
+            <ul class="footer__menu" role="list">
+              {%- for link in block.settings.menu.links -%}
+                <li><a href="{{ link.url }}" data-scramble>{{ link.title }}</a></li>
+              {%- endfor -%}
+            </ul>
+          {%- when 'text' -%}
+            <h3 class="footer__label mono">{{ block.settings.heading }}</h3>
+            <div class="rte footer__text">{{ block.settings.text }}</div>
+          {%- when 'social' -%}
+            <h3 class="footer__label mono">{{ block.settings.heading }}</h3>
+            {% render 'social-links' %}
+        {%- endcase -%}
+      </div>
+    {%- endfor -%}
+  </div>
+
+  <div class="footer__mark" aria-hidden="true">
+    <span class="chrome-text footer__mark-text">{{ section.settings.big_word | default: 'FAKTORY' }}</span>
+  </div>
+
+  <div class="footer__bottom page-width mono">
+    <span>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}</span>
+    {%- if section.settings.show_payment -%}
+      <ul class="footer__payment" role="list">
+        {%- for type in shop.enabled_payment_types -%}
+          <li>{{ type | payment_type_svg_tag: class: 'payment-icon' }}</li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+    <span>{{ powered_by_link }}</span>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "class": "section-footer",
+  "enabled_on": { "groups": ["footer"] },
+  "max_blocks": 4,
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "JOIN THE FAKTORY LINE" },
+    { "type": "checkbox", "id": "show_newsletter", "label": "Show newsletter signup", "default": true },
+    { "type": "text", "id": "big_word", "label": "Giant wordmark", "default": "FAKTORY" },
+    { "type": "checkbox", "id": "show_payment", "label": "Show payment icons", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "menu",
+      "name": "Menu",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "INDEX" },
+        { "type": "link_list", "id": "menu", "label": "Menu", "default": "footer" }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "LOCATION" },
+        { "type": "richtext", "id": "text", "label": "Text", "default": "<p>The Faktory<br>Studio + Label HQ</p>" }
+      ]
+    },
+    {
+      "type": "social",
+      "name": "Social links",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "SIGNAL" }
+      ]
+    }
+  ]
+}
+{% endschema %}

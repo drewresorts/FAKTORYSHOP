@@ -1,0 +1,65 @@
+{
+  "sections": {
+    "title": {
+      "type": "page-hero",
+      "settings": {
+        "eyebrow": "FAKTORY MEDIA"
+      }
+    },
+    "hub": {
+      "type": "content-hub",
+      "blocks": {
+        "v1": {
+          "type": "video",
+          "settings": {
+            "title": "STUDIO SESSIONS EP. 01",
+            "label": "VIDEO",
+            "size": "lg"
+          }
+        },
+        "au": {
+          "type": "audio",
+          "settings": {
+            "title": "FAKTORY RADIO 001",
+            "label": "PODCAST",
+            "size": "md"
+          }
+        },
+        "lv": {
+          "type": "live",
+          "settings": {
+            "title": "LIVE FROM STUDIO A",
+            "schedule": "EVERY FRIDAY 21:00",
+            "is_live": true,
+            "size": "sm"
+          }
+        },
+        "bl": {
+          "type": "blog",
+          "settings": {
+            "blog": "news",
+            "limit": 3
+          }
+        }
+      },
+      "block_order": [
+        "v1",
+        "au",
+        "lv",
+        "bl"
+      ],
+      "settings": {
+        "heading": "TRANSMISSIONS"
+      }
+    },
+    "content": {
+      "type": "main-page",
+      "settings": {}
+    }
+  },
+  "order": [
+    "title",
+    "hub",
+    "content"
+  ]
+}

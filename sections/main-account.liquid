@@ -1,0 +1,29 @@
+<section class="page-width section-pad account">
+  <p class="eyebrow mono">{{ 'customer.account' | t }}</p>
+  <h1 class="display-lg"><span class="chrome-text">{{ customer.first_name | default: customer.email }}</span></h1>
+  <p class="mono"><a href="{{ routes.account_logout_url }}" class="link-underline">{{ 'customer.log_out' | t }}</a> · <a href="{{ routes.account_addresses_url }}" class="link-underline">{{ 'customer.addresses' | t }} ({{ customer.addresses_count }})</a></p>
+  <h2 class="display-sm">{{ 'customer.orders' | t }}</h2>
+  {%- paginate customer.orders by 20 -%}
+    {%- if customer.orders.size > 0 -%}
+      <table class="table mono">
+        <thead><tr><th>#</th><th>{{ 'customer.date' | t }}</th><th>{{ 'customer.status' | t }}</th><th>{{ 'customer.total' | t }}</th></tr></thead>
+        <tbody>
+          {%- for order in customer.orders -%}
+            <tr>
+              <td><a href="{{ order.customer_url }}" class="link-underline">{{ order.name }}</a></td>
+              <td>{{ order.created_at | date: '%d.%m.%Y' }}</td>
+              <td>{{ order.fulfillment_status_label }}</td>
+              <td>{{ order.total_price | money }}</td>
+            </tr>
+          {%- endfor -%}
+        </tbody>
+      </table>
+    {%- else -%}
+      <p class="mono empty-state">{{ 'customer.no_orders' | t }}</p>
+    {%- endif -%}
+    {%- if paginate.pages > 1 -%}{% render 'pagination', paginate: paginate %}{%- endif -%}
+  {%- endpaginate -%}
+</section>
+{% schema %}
+{ "name": "Account" }
+{% endschema %}

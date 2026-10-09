@@ -1,0 +1,61 @@
+{%- liquid
+  assign artist = metaobject
+  assign portrait = artist.portrait.value
+  assign merch = artist.merch_collection.value
+-%}
+<section class="artist-page">
+  <div class="artist-page__hero">
+    <div class="artist-page__portrait" data-parallax="0.2">
+      {%- if portrait != blank -%}
+        {{ portrait | image_url: width: 2000 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '700, 1000, 1400, 2000', sizes: '100vw', alt: artist.name.value }}
+      {%- else -%}
+        {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+      {%- endif -%}
+    </div>
+    <div class="artist-page__title page-width">
+      {%- if artist.genre.value != blank -%}<p class="eyebrow mono"><i class="live-dot"></i>{{ artist.genre.value }}</p>{%- endif -%}
+      <h1 class="display-xxl" data-glitch><span class="chrome-text">{{ artist.name.value }}</span></h1>
+      <ul class="artist-page__links mono" role="list">
+        {%- if artist.spotify_url.value != blank -%}<li><a class="ghost-btn ghost-btn--sm" href="{{ artist.spotify_url.value }}" target="_blank" rel="noopener"><span>SPOTIFY</span></a></li>{%- endif -%}
+        {%- if artist.apple_music_url.value != blank -%}<li><a class="ghost-btn ghost-btn--sm" href="{{ artist.apple_music_url.value }}" target="_blank" rel="noopener"><span>APPLE MUSIC</span></a></li>{%- endif -%}
+        {%- if artist.instagram_url.value != blank -%}<li><a class="ghost-btn ghost-btn--sm" href="{{ artist.instagram_url.value }}" target="_blank" rel="noopener"><span>INSTAGRAM</span></a></li>{%- endif -%}
+        {%- if artist.youtube_url.value != blank -%}<li><a class="ghost-btn ghost-btn--sm" href="{{ artist.youtube_url.value }}" target="_blank" rel="noopener"><span>YOUTUBE</span></a></li>{%- endif -%}
+      </ul>
+    </div>
+  </div>
+
+  <div class="page-width artist-page__body section-pad">
+    {%- if artist.bio != blank -%}
+      <div class="artist-page__bio rte reveal">{{ artist.bio | metafield_tag }}</div>
+    {%- endif -%}
+    {%- if artist.spotify_embed.value != blank -%}
+      <div class="artist-page__player reveal">
+        <iframe src="{{ artist.spotify_embed.value }}" title="{{ artist.name.value | escape }}" loading="lazy" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+      </div>
+    {%- endif -%}
+  </div>
+
+  {%- if section.settings.show_merch and merch != blank and merch.products.size > 0 -%}
+    <div class="page-width section-pad">
+      <div class="section-head">
+        <h2 class="display-lg"><span class="chrome-text">{{ 'sections.artist.merch' | t }}</span></h2>
+        <a class="link-underline mono" href="{{ merch.url }}">{{ 'sections.featured_collection.view_all' | t }} {% render 'icon', icon: 'arrow' %}</a>
+      </div>
+      <div class="grid grid--4">
+        {%- for product in merch.products limit: 8 -%}
+          {% render 'product-card', product: product, index: forloop.index0 %}
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Artist profile",
+  "settings": [
+    { "type": "checkbox", "id": "show_merch", "label": "Show artist merch", "default": true },
+    { "type": "paragraph", "content": "Content comes from the artist metaobject entry: name, genre, portrait, bio, spotify_url, apple_music_url, instagram_url, youtube_url, spotify_embed, merch_collection." }
+  ]
+}
+{% endschema %}

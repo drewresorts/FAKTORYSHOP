@@ -1,0 +1,66 @@
+{%- paginate collection.products by section.settings.per_page -%}
+  <section class="collection section-pad">
+    <div class="page-width collection__head">
+      <p class="eyebrow mono">{{ 'collections.label' | t }} / {{ collection.products_count }} {{ 'collections.items' | t }}</p>
+      <h1 class="display-xl"><span class="chrome-text">{{ collection.title }}</span></h1>
+      {%- if collection.description != blank -%}<div class="rte collection__desc">{{ collection.description }}</div>{%- endif -%}
+    </div>
+
+    <div class="page-width collection__toolbar mono">
+      {%- if section.settings.enable_filters and collection.filters.size > 0 -%}
+        <form class="filters" data-filter-form>
+          {%- for filter in collection.filters -%}
+            {%- if filter.type == 'list' -%}
+              <details class="filter">
+                <summary>{{ filter.label }}{% if filter.active_values.size > 0 %} ({{ filter.active_values.size }}){% endif %}</summary>
+                <div class="filter__panel">
+                  {%- for value in filter.values -%}
+                    <label class="filter__opt">
+                      <input type="checkbox" name="{{ value.param_name }}" value="{{ value.value }}"{% if value.active %} checked{% endif %}{% if value.count == 0 and value.active == false %} disabled{% endif %}>
+                      <span>{{ value.label }} ({{ value.count }})</span>
+                    </label>
+                  {%- endfor -%}
+                </div>
+              </details>
+            {%- endif -%}
+          {%- endfor -%}
+          <input type="hidden" name="sort_by" value="{{ collection.sort_by | default: collection.default_sort_by }}">
+          <noscript><button type="submit" class="ghost-btn ghost-btn--sm"><span>{{ 'collections.apply' | t }}</span></button></noscript>
+        </form>
+      {%- endif -%}
+      <label class="sort">
+        <span>{{ 'collections.sort' | t }}</span>
+        <select class="field field--sm" data-sort-select>
+          {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+          {%- for option in collection.sort_options -%}
+            <option value="{{ option.value | escape }}"{% if option.value == sort_by %} selected{% endif %}>{{ option.name | escape }}</option>
+          {%- endfor -%}
+        </select>
+      </label>
+    </div>
+
+    <div class="page-width">
+      <div class="grid grid--{{ section.settings.columns }}">
+        {%- for product in collection.products -%}
+          {% render 'product-card', product: product, index: forloop.index0 %}
+        {%- else -%}
+          <p class="mono empty-state">{{ 'collections.empty' | t }}</p>
+        {%- endfor -%}
+      </div>
+      {%- if paginate.pages > 1 -%}
+        {% render 'pagination', paginate: paginate %}
+      {%- endif -%}
+    </div>
+  </section>
+{%- endpaginate -%}
+
+{% schema %}
+{
+  "name": "Collection grid",
+  "settings": [
+    { "type": "range", "id": "per_page", "min": 8, "max": 48, "step": 4, "label": "Products per page", "default": 24 },
+    { "type": "select", "id": "columns", "label": "Desktop columns", "options": [{ "value": "2", "label": "2" }, { "value": "3", "label": "3" }, { "value": "4", "label": "4" }], "default": "4" },
+    { "type": "checkbox", "id": "enable_filters", "label": "Enable filters", "default": true }
+  ]
+}
+{% endschema %}

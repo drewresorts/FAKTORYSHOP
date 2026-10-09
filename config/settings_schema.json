@@ -1,0 +1,205 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Faktory",
+    "theme_version": "1.0.0",
+    "theme_author": "The Faktory",
+    "theme_documentation_url": "https://github.com/drewresorts/faktoryshop",
+    "theme_support_url": "https://github.com/drewresorts/faktoryshop/issues"
+  },
+  {
+    "name": "Logo & identity",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo image",
+        "info": "Leave empty to use the chrome wordmark."
+      },
+      {
+        "type": "range",
+        "id": "logo_width",
+        "min": 60,
+        "max": 300,
+        "step": 10,
+        "unit": "px",
+        "label": "Logo width",
+        "default": 140
+      },
+      {
+        "type": "text",
+        "id": "wordmark",
+        "label": "Wordmark text",
+        "default": "THE FAKTORY"
+      },
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon",
+        "info": "32 x 32px .png"
+      }
+    ]
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_background",
+        "label": "Background",
+        "default": "#050505"
+      },
+      {
+        "type": "color",
+        "id": "color_surface",
+        "label": "Surface",
+        "default": "#111111"
+      },
+      {
+        "type": "color",
+        "id": "color_foreground",
+        "label": "Text",
+        "default": "#f2f2ee"
+      },
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Signal accent",
+        "info": "Used for live badges, sale tags, and focus states.",
+        "default": "#ff2a00"
+      },
+      {
+        "type": "header",
+        "content": "Chrome"
+      },
+      {
+        "type": "select",
+        "id": "chrome_style",
+        "label": "Chrome finish",
+        "options": [
+          { "value": "silver", "label": "Polished silver" },
+          { "value": "holo", "label": "Holographic" }
+        ],
+        "default": "silver"
+      },
+      {
+        "type": "color",
+        "id": "chrome_light",
+        "label": "Chrome highlight",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "chrome_mid",
+        "label": "Chrome mid-tone",
+        "default": "#9a9a9e"
+      },
+      {
+        "type": "color",
+        "id": "chrome_dark",
+        "label": "Chrome shadow",
+        "default": "#1a1a1c"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "select",
+        "id": "type_display",
+        "label": "Display font",
+        "options": [
+          { "value": "anton", "label": "Anton (condensed)" },
+          { "value": "archivo", "label": "Archivo Black (heavy)" },
+          { "value": "unbounded", "label": "Unbounded (wide, futuristic)" }
+        ],
+        "default": "anton"
+      },
+      {
+        "type": "range",
+        "id": "type_display_scale",
+        "min": 80,
+        "max": 130,
+        "step": 5,
+        "unit": "%",
+        "label": "Display size scale",
+        "default": 100
+      }
+    ]
+  },
+  {
+    "name": "Motion & effects",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "enable_tilt",
+        "label": "Chrome reacts to device tilt & pointer",
+        "info": "On phones the chrome shimmers as the device is tilted. iOS asks visitors for motion permission once.",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "tilt_intensity",
+        "min": 20,
+        "max": 200,
+        "step": 10,
+        "unit": "%",
+        "label": "Tilt intensity",
+        "default": 100
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_cursor",
+        "label": "Custom cursor (desktop)",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_grain",
+        "label": "Film grain overlay",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_reveal",
+        "label": "Reveal sections on scroll",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Products",
+    "settings": [
+      {
+        "type": "select",
+        "id": "card_image_ratio",
+        "label": "Product card image ratio",
+        "options": [
+          { "value": "square", "label": "Square" },
+          { "value": "portrait", "label": "Portrait" },
+          { "value": "natural", "label": "Natural" }
+        ],
+        "default": "portrait"
+      },
+      {
+        "type": "checkbox",
+        "id": "card_show_secondary",
+        "label": "Show second image on hover",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Social media",
+    "settings": [
+      { "type": "text", "id": "social_instagram", "label": "Instagram", "info": "https://instagram.com/thefaktory" },
+      { "type": "text", "id": "social_tiktok", "label": "TikTok" },
+      { "type": "text", "id": "social_youtube", "label": "YouTube" },
+      { "type": "text", "id": "social_spotify", "label": "Spotify" },
+      { "type": "text", "id": "social_soundcloud", "label": "SoundCloud" },
+      { "type": "text", "id": "social_twitter", "label": "X / Twitter" },
+      { "type": "text", "id": "social_twitch", "label": "Twitch" }
+    ]
+  }
+]

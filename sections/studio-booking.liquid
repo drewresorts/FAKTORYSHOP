@@ -1,0 +1,239 @@
+{%- liquid
+  assign rooms = section.blocks | where: 'type', 'room'
+  assign specs = section.blocks | where: 'type', 'spec'
+  assign mode = section.settings.mode
+-%}
+<section class="studio section-pad" id="studio-{{ section.id }}" data-studio>
+  <div class="page-width section-head">
+    <div>
+      {%- if section.settings.eyebrow != blank -%}<p class="eyebrow mono"><i class="live-dot"></i>{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2 class="display-lg reveal"><span class="chrome-text">{{ section.settings.heading }}</span></h2>
+    </div>
+    {%- if section.settings.text != blank -%}
+      <div class="studio__intro rte reveal">{{ section.settings.text }}</div>
+    {%- endif -%}
+  </div>
+
+  {%- if rooms.size > 0 -%}
+    <div class="page-width studio__rooms">
+      {%- for block in rooms -%}
+        <article class="room reveal" style="--i: {{ forloop.index0 }}" data-tilt-card {{ block.shopify_attributes }}>
+          <div class="room__media media media--landscape">
+            {%- if block.settings.image != blank -%}
+              {{ block.settings.image | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '500, 800, 1100, 1400', sizes: '(min-width: 990px) 50vw, 100vw', class: 'room__img' }}
+            {%- else -%}
+              {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+            {%- endif -%}
+            <span class="card__glare" aria-hidden="true"></span>
+            <span class="room__tag mono">{{ forloop.index | prepend: 'RM-0' }}</span>
+          </div>
+          <div class="room__body">
+            <div class="room__top">
+              <h3 class="room__name display-sm">{{ block.settings.name }}</h3>
+              {%- if block.settings.rate_label != blank -%}
+                <span class="room__rate chrome-text">{{ block.settings.rate_label }}</span>
+              {%- endif -%}
+            </div>
+            {%- if block.settings.description != blank -%}
+              <div class="rte room__desc">{{ block.settings.description }}</div>
+            {%- endif -%}
+            {%- if block.settings.features != blank -%}
+              <ul class="room__features mono" role="list">
+                {%- assign feats = block.settings.features | newline_to_br | split: '<br />' -%}
+                {%- for f in feats -%}{%- assign ff = f | strip -%}{%- if ff != blank -%}<li>{{ ff }}</li>{%- endif -%}{%- endfor -%}
+              </ul>
+            {%- endif -%}
+            <a href="#booking-{{ section.id }}" class="ghost-btn ghost-btn--sm" data-room-pick="{{ block.id }}"><span>{{ 'sections.studio.book_room' | t }}</span></a>
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+
+  {%- if specs.size > 0 -%}
+    <div class="page-width studio__specs">
+      {%- for block in specs -%}
+        <div class="spec reveal" style="--i: {{ forloop.index0 }}" {{ block.shopify_attributes }}>
+          <span class="spec__label mono">{{ block.settings.label }}</span>
+          <span class="spec__value">{{ block.settings.value }}</span>
+        </div>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+
+  {%- if mode != 'none' -%}
+    <div class="page-width booking" id="booking-{{ section.id }}">
+      <div class="booking__head">
+        <h3 class="display-md"><span class="chrome-text">{{ section.settings.form_heading }}</span></h3>
+        <p class="mono booking__sub">{{ section.settings.form_subheading }}</p>
+      </div>
+
+      {%- if mode == 'embed' and section.settings.embed_url != blank -%}
+        <div class="booking__embed">
+          <iframe src="{{ section.settings.embed_url }}" title="{{ section.settings.form_heading | escape }}" loading="lazy" allow="payment"></iframe>
+        </div>
+      {%- else -%}
+        {%- assign form_id = 'BookingForm-' | append: section.id -%}
+        {%- form 'contact', id: form_id, class: 'booking__form' -%}
+          {%- if form.posted_successfully? -%}
+            <div class="form-msg form-msg--ok booking__success">
+              <span class="display-sm chrome-text">{{ 'sections.studio.success_title' | t }}</span>
+              <p class="mono">{{ 'sections.studio.success_text' | t }}</p>
+            </div>
+          {%- endif -%}
+          {%- if form.errors -%}
+            <p class="form-msg form-msg--err mono">{{ form.errors | default_errors }}</p>
+          {%- endif -%}
+
+          <input type="hidden" name="contact[tags]" value="studio-booking">
+
+          {%- if rooms.size > 0 -%}
+            <fieldset class="booking__rooms">
+              <legend class="field-label mono">{{ 'sections.studio.room' | t }}</legend>
+              {%- for block in rooms -%}
+                {%- assign room_variant = block.settings.product.selected_or_first_available_variant -%}
+                <label class="pill">
+                  <input
+                    type="radio"
+                    name="contact[Room]"
+                    value="{{ block.settings.name | escape }}"
+                    data-room-id="{{ block.id }}"
+                    data-rate="{{ block.settings.rate | default: 0 }}"
+                    {% if room_variant %}data-variant="{{ room_variant.id }}"{% endif %}
+                    {% if forloop.first %}checked{% endif %}
+                  >
+                  <span>{{ block.settings.name }}</span>
+                </label>
+              {%- endfor -%}
+            </fieldset>
+          {%- endif -%}
+
+          <div class="booking__grid">
+            <label class="field-wrap">
+              <span class="field-label mono">{{ 'sections.studio.date' | t }}</span>
+              <input class="field" type="date" name="contact[Session date]" required data-booking-date>
+            </label>
+            <label class="field-wrap">
+              <span class="field-label mono">{{ 'sections.studio.start' | t }}</span>
+              <input class="field" type="time" name="contact[Start time]" value="12:00" step="1800" required>
+            </label>
+            <label class="field-wrap">
+              <span class="field-label mono">{{ 'sections.studio.hours' | t }}</span>
+              <div class="stepper">
+                <button type="button" class="stepper__btn" data-step="-1" aria-label="-">{% render 'icon', icon: 'minus' %}</button>
+                <input class="field stepper__input" type="number" name="contact[Hours]" min="{{ section.settings.min_hours }}" max="24" value="{{ section.settings.min_hours }}" data-booking-hours>
+                <button type="button" class="stepper__btn" data-step="1" aria-label="+">{% render 'icon', icon: 'plus' %}</button>
+              </div>
+            </label>
+            <label class="field-wrap">
+              <span class="field-label mono">{{ 'sections.studio.project' | t }}</span>
+              <select class="field" name="contact[Project type]">
+                {%- assign types = section.settings.project_types | split: ',' -%}
+                {%- for t in types -%}<option>{{ t | strip }}</option>{%- endfor -%}
+              </select>
+            </label>
+            <label class="field-wrap">
+              <span class="field-label mono">{{ 'sections.studio.name' | t }}</span>
+              <input class="field" type="text" name="contact[name]" autocomplete="name" required>
+            </label>
+            <label class="field-wrap">
+              <span class="field-label mono">{{ 'sections.studio.email' | t }}</span>
+              <input class="field" type="email" name="contact[email]" autocomplete="email" required>
+            </label>
+            <label class="field-wrap">
+              <span class="field-label mono">{{ 'sections.studio.phone' | t }}</span>
+              <input class="field" type="tel" name="contact[phone]" autocomplete="tel">
+            </label>
+            <label class="field-wrap field-wrap--full">
+              <span class="field-label mono">{{ 'sections.studio.notes' | t }}</span>
+              <textarea class="field" name="contact[body]" rows="4" placeholder="{{ 'sections.studio.notes_placeholder' | t }}"></textarea>
+            </label>
+          </div>
+
+          <div class="booking__foot">
+            <div class="booking__estimate" data-booking-estimate-wrap>
+              <span class="mono">{{ 'sections.studio.estimate' | t }}</span>
+              <span class="booking__total chrome-text" data-booking-estimate>—</span>
+            </div>
+            <div class="booking__actions">
+              {%- if mode == 'inquiry' or mode == 'both' -%}
+                <button type="submit" class="chrome-btn" data-magnetic><span>{{ 'sections.studio.submit' | t }}</span>{% render 'icon', icon: 'arrow' %}</button>
+              {%- endif -%}
+              {%- if mode == 'deposit' or mode == 'both' -%}
+                <button type="button" class="ghost-btn" data-booking-deposit data-magnetic><span>{{ 'sections.studio.deposit' | t }}</span></button>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endform -%}
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Studio booking",
+  "class": "section-studio",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "RECORDING STUDIO" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "BOOK THE ROOM" },
+    { "type": "richtext", "id": "text", "label": "Intro", "default": "<p>Tracking, mixing, mastering and content capture. Engineers on call. Load-in 24/7.</p>" },
+    { "type": "header", "content": "Booking" },
+    {
+      "type": "select",
+      "id": "mode",
+      "label": "Booking method",
+      "options": [
+        { "value": "both", "label": "Inquiry form + pay deposit" },
+        { "value": "inquiry", "label": "Inquiry form only" },
+        { "value": "deposit", "label": "Pay deposit only (adds room product to cart)" },
+        { "value": "embed", "label": "Embed external scheduler" },
+        { "value": "none", "label": "No booking form" }
+      ],
+      "default": "both",
+      "info": "Deposit mode adds the room's linked product to the cart, quantity = hours, with the session details attached."
+    },
+    { "type": "text", "id": "embed_url", "label": "Scheduler embed URL", "info": "e.g. Calendly, Square Appointments, Acuity booking page URL." },
+    { "type": "text", "id": "form_heading", "label": "Form heading", "default": "LOCK A SESSION" },
+    { "type": "text", "id": "form_subheading", "label": "Form subheading", "default": "We confirm every request within 24 hours." },
+    { "type": "range", "id": "min_hours", "min": 1, "max": 8, "step": 1, "label": "Minimum hours", "default": 2 },
+    { "type": "text", "id": "project_types", "label": "Project types", "info": "Comma separated", "default": "Tracking, Mixing, Mastering, Podcast, Video / Content, Rehearsal" }
+  ],
+  "blocks": [
+    {
+      "type": "room",
+      "name": "Room",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Room name", "default": "STUDIO A" },
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "richtext", "id": "description", "label": "Description", "default": "<p>Flagship live room and control room.</p>" },
+        { "type": "textarea", "id": "features", "label": "Features (one per line)", "default": "SSL CONSOLE\nATMOS 7.1.4\nISO BOOTH" },
+        { "type": "text", "id": "rate_label", "label": "Rate label", "default": "$85/HR" },
+        { "type": "number", "id": "rate", "label": "Hourly rate (number, for live estimate)", "default": 85 },
+        { "type": "product", "id": "product", "label": "Booking product", "info": "Optional. A product priced per hour — used for deposit/checkout." }
+      ]
+    },
+    {
+      "type": "spec",
+      "name": "Spec",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "MONITORING" },
+        { "type": "text", "id": "value", "label": "Value", "default": "PMC / NS10" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Studio booking",
+      "blocks": [
+        { "type": "room", "settings": { "name": "STUDIO A", "rate_label": "$85/HR", "rate": 85 } },
+        { "type": "room", "settings": { "name": "STUDIO B", "rate_label": "$55/HR", "rate": 55, "features": "WRITING ROOM\nVOCAL BOOTH\nANALOG SYNTH WALL" } },
+        { "type": "spec", "settings": { "label": "CONSOLE", "value": "SSL 4000" } },
+        { "type": "spec", "settings": { "label": "MONITORING", "value": "PMC / NS10" } },
+        { "type": "spec", "settings": { "label": "FORMAT", "value": "DOLBY ATMOS" } },
+        { "type": "spec", "settings": { "label": "HOURS", "value": "24 / 7" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

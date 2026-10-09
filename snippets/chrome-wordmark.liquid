@@ -1,0 +1,8 @@
+{%- comment -%}
+  Accepts:
+  - text: {String}
+  - tag: {String} default span
+  - class: {String}
+{%- endcomment -%}
+{%- assign tag = tag | default: 'span' -%}
+<{{ tag }} class="chrome-text {{ class }}" data-text="{{ text | escape }}">{{ text }}</{{ tag }}>

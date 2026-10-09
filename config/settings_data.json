@@ -1,0 +1,27 @@
+{
+  "current": "Default",
+  "presets": {
+    "Default": {
+      "color_background": "#050505",
+      "color_surface": "#111111",
+      "color_foreground": "#f2f2ee",
+      "color_accent": "#ff2a00",
+      "chrome_style": "silver",
+      "type_display": "anton",
+      "enable_tilt": true,
+      "enable_cursor": true,
+      "enable_grain": true
+    },
+    "Holo": {
+      "color_background": "#050505",
+      "color_surface": "#101014",
+      "color_foreground": "#f2f2ee",
+      "color_accent": "#c6ff00",
+      "chrome_style": "holo",
+      "type_display": "unbounded",
+      "enable_tilt": true,
+      "enable_cursor": true,
+      "enable_grain": true
+    }
+  }
+}

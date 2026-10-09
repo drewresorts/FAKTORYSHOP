@@ -1,0 +1,55 @@
+<section class="marquee-section marquee-section--{{ section.settings.style }}{% if section.settings.skew %} marquee-section--skew{% endif %}" style="--speed: {{ section.settings.speed }}s">
+  <div class="marquee{% if section.settings.reverse %} marquee--reverse{% endif %}" data-marquee>
+    <div class="marquee__track">
+      {%- for i in (1..4) -%}
+        <div class="marquee__group"{% if i > 1 %} aria-hidden="true"{% endif %}>
+          {%- for block in section.blocks -%}
+            <span class="marquee__word{% if section.settings.style == 'chrome' %} chrome-text{% endif %}" {{ block.shopify_attributes }}>{{ block.settings.text }}</span>
+            <span class="marquee__star" aria-hidden="true">✦</span>
+          {%- endfor -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Scrolling marquee",
+  "settings": [
+    {
+      "type": "select",
+      "id": "style",
+      "label": "Style",
+      "options": [
+        { "value": "chrome", "label": "Chrome on dark" },
+        { "value": "inverse", "label": "Black on light" },
+        { "value": "outline", "label": "Outline" },
+        { "value": "accent", "label": "Signal accent" }
+      ],
+      "default": "chrome"
+    },
+    { "type": "range", "id": "speed", "min": 10, "max": 80, "step": 5, "unit": "s", "label": "Loop duration", "default": 30 },
+    { "type": "checkbox", "id": "reverse", "label": "Reverse direction", "default": false },
+    { "type": "checkbox", "id": "skew", "label": "Tilted band", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "word",
+      "name": "Word",
+      "settings": [{ "type": "text", "id": "text", "label": "Text", "default": "RECORDS" }]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Scrolling marquee",
+      "blocks": [
+        { "type": "word", "settings": { "text": "RECORDS" } },
+        { "type": "word", "settings": { "text": "STUDIO" } },
+        { "type": "word", "settings": { "text": "MERCH" } },
+        { "type": "word", "settings": { "text": "MEDIA" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

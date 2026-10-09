@@ -1,0 +1,74 @@
+{%- comment -%}
+  Accepts:
+  - product: {Object}
+  - index: {Number} optional, used for stagger
+{%- endcomment -%}
+{%- liquid
+  assign ratio_class = 'media--' | append: settings.card_image_ratio
+  assign has_secondary = false
+  if settings.card_show_secondary and product.media.size > 1 and product.media[1].media_type == 'image'
+    assign has_secondary = true
+  endif
+  assign has_model = false
+  for m in product.media
+    if m.media_type == 'model'
+      assign has_model = true
+      break
+    endif
+  endfor
+-%}
+<article class="card reveal" style="--i: {{ index | default: 0 }}" data-tilt-card>
+  <a href="{{ product.url }}" class="card__link" aria-label="{{ product.title | escape }}">
+    <div class="card__media media {{ ratio_class }}{% if has_secondary %} card__media--swap{% endif %}">
+      {%- if product.featured_media -%}
+        {{
+          product.featured_media
+          | image_url: width: 900
+          | image_tag:
+            loading: 'lazy',
+            widths: '300, 450, 600, 900',
+            sizes: '(min-width: 990px) 25vw, (min-width: 750px) 33vw, 50vw',
+            class: 'card__img card__img--primary',
+            alt: product.featured_media.alt
+        }}
+        {%- if has_secondary -%}
+          {{
+            product.media[1]
+            | image_url: width: 900
+            | image_tag:
+              loading: 'lazy',
+              widths: '300, 450, 600, 900',
+              sizes: '(min-width: 990px) 25vw, (min-width: 750px) 33vw, 50vw',
+              class: 'card__img card__img--secondary',
+              alt: product.media[1].alt
+          }}
+        {%- endif -%}
+      {%- else -%}
+        {{ 'product-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      {%- endif -%}
+      <span class="card__glare" aria-hidden="true"></span>
+      <div class="card__badges">
+        {%- unless product.available -%}
+          <span class="badge badge--muted">{{ 'products.product.sold_out' | t }}</span>
+        {%- else -%}
+          {%- if product.compare_at_price > product.price -%}
+            <span class="badge badge--accent">{{ 'products.product.on_sale' | t }}</span>
+          {%- endif -%}
+        {%- endunless -%}
+        {%- if has_model -%}
+          <span class="badge badge--chrome">3D</span>
+        {%- endif -%}
+        {%- if product.tags contains 'digital' -%}
+          <span class="badge">{{ 'products.product.digital' | t }}</span>
+        {%- endif -%}
+      </div>
+    </div>
+    <div class="card__info">
+      <h3 class="card__title">{{ product.title | escape }}</h3>
+      {%- if product.vendor != shop.name and product.vendor != blank -%}
+        <p class="card__vendor">{{ product.vendor }}</p>
+      {%- endif -%}
+      {% render 'price', product: product %}
+    </div>
+  </a>
+</article>

@@ -1,0 +1,30 @@
+<section class="page-width section-pad account">
+  <p class="mono"><a href="{{ routes.account_url }}" class="link-underline">&larr; {{ 'customer.account' | t }}</a></p>
+  <h1 class="display-lg"><span class="chrome-text">{{ order.name }}</span></h1>
+  <p class="mono">{{ order.created_at | date: '%d.%m.%Y %H:%M' }} · {{ order.financial_status_label }} · {{ order.fulfillment_status_label }}</p>
+  <table class="table mono">
+    <thead><tr><th>{{ 'customer.product' | t }}</th><th>{{ 'products.product.quantity' | t }}</th><th>{{ 'customer.total' | t }}</th></tr></thead>
+    <tbody>
+      {%- for line in order.line_items -%}
+        <tr>
+          <td>{{ line.title }}{%- for p in line.properties -%}{%- if p.last != blank -%}<br><small>{{ p.first }}: {{ p.last }}</small>{%- endif -%}{%- endfor -%}</td>
+          <td>{{ line.quantity }}</td>
+          <td>{{ line.final_line_price | money }}</td>
+        </tr>
+      {%- endfor -%}
+    </tbody>
+    <tfoot>
+      <tr><td colspan="2">{{ 'cart.subtotal' | t }}</td><td>{{ order.line_items_subtotal_price | money }}</td></tr>
+      {%- for shipping in order.shipping_methods -%}<tr><td colspan="2">{{ shipping.title }}</td><td>{{ shipping.price | money }}</td></tr>{%- endfor -%}
+      {%- for tax in order.tax_lines -%}<tr><td colspan="2">{{ tax.title }}</td><td>{{ tax.price | money }}</td></tr>{%- endfor -%}
+      <tr><td colspan="2"><b>{{ 'customer.total' | t }}</b></td><td><b>{{ order.total_price | money }}</b></td></tr>
+    </tfoot>
+  </table>
+  {%- if order.shipping_address -%}
+    <h2 class="display-sm">{{ 'customer.shipping' | t }}</h2>
+    <div class="mono">{{ order.shipping_address | format_address }}</div>
+  {%- endif -%}
+</section>
+{% schema %}
+{ "name": "Order" }
+{% endschema %}

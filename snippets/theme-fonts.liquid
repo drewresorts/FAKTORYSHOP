@@ -1,0 +1,13 @@
+{%- liquid
+  case settings.type_display
+    when 'archivo'
+      assign display_family = 'Archivo+Black'
+    when 'unbounded'
+      assign display_family = 'Unbounded:wght@700;900'
+    else
+      assign display_family = 'Anton'
+  endcase
+-%}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family={{ display_family }}&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">

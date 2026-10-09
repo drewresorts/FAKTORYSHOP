@@ -1,0 +1,191 @@
+{%- liquid
+  assign kinds = ''
+  for block in section.blocks
+    case block.type
+      when 'video'
+        assign kinds = kinds | append: 'video,'
+      when 'audio'
+        assign kinds = kinds | append: 'audio,'
+      when 'blog'
+        assign kinds = kinds | append: 'editorial,'
+      when 'live'
+        assign kinds = kinds | append: 'live,'
+      when 'drop'
+        assign kinds = kinds | append: 'digital,'
+    endcase
+  endfor
+  assign kinds = kinds | split: ',' | uniq
+-%}
+<section class="hub section-pad" data-hub>
+  <div class="page-width section-head">
+    <div>
+      {%- if section.settings.eyebrow != blank -%}<p class="eyebrow mono">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2 class="display-lg reveal"><span class="chrome-text">{{ section.settings.heading }}</span></h2>
+    </div>
+    {%- if kinds.size > 1 -%}
+      <div class="hub__filters mono" role="tablist">
+        <button type="button" class="pill-btn is-active" data-hub-filter="all" role="tab" aria-selected="true">{{ 'sections.hub.all' | t }}</button>
+        {%- for k in kinds -%}
+          <button type="button" class="pill-btn" data-hub-filter="{{ k }}" role="tab" aria-selected="false">
+            {%- case k -%}
+              {%- when 'video' -%}{{ 'sections.hub.kind_video' | t }}
+              {%- when 'audio' -%}{{ 'sections.hub.kind_audio' | t }}
+              {%- when 'editorial' -%}{{ 'sections.hub.kind_editorial' | t }}
+              {%- when 'live' -%}{{ 'sections.hub.kind_live' | t }}
+              {%- when 'digital' -%}{{ 'sections.hub.kind_digital' | t }}
+            {%- endcase -%}
+          </button>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="page-width hub__grid">
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'video' -%}
+          {%- assign v = block.settings.video -%}
+          <article class="tile tile--video tile--{{ block.settings.size }} reveal" data-kind="video" style="--i: {{ forloop.index0 }}" {{ block.shopify_attributes }}>
+            <button type="button" class="tile__media media media--landscape" data-lite-embed="{% if v.type == 'youtube' %}https://www.youtube-nocookie.com/embed/{{ v.id }}?autoplay=1&rel=0{% elsif v.type == 'vimeo' %}https://player.vimeo.com/video/{{ v.id }}?autoplay=1{% endif %}" aria-label="{{ 'sections.hub.play' | t }}: {{ block.settings.title | escape }}">
+              {%- if block.settings.thumbnail != blank -%}
+                {{ block.settings.thumbnail | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '500, 900, 1400', sizes: '(min-width: 990px) 50vw, 100vw' }}
+              {%- elsif v.type == 'youtube' -%}
+                <img src="https://i.ytimg.com/vi/{{ v.id }}/hqdefault.jpg" alt="" loading="lazy" width="480" height="360">
+              {%- else -%}
+                {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+              {%- endif -%}
+              <span class="tile__play chrome-bg">{% render 'icon', icon: 'play' %}</span>
+            </button>
+            <div class="tile__info">
+              <span class="tile__kind mono">{{ block.settings.label | default: 'VIDEO' }}</span>
+              <h3 class="tile__title">{{ block.settings.title }}</h3>
+            </div>
+          </article>
+
+        {%- when 'audio' -%}
+          <article class="tile tile--audio tile--{{ block.settings.size }} reveal" data-kind="audio" style="--i: {{ forloop.index0 }}" {{ block.shopify_attributes }}>
+            <div class="tile__info">
+              <span class="tile__kind mono">{{ block.settings.label | default: 'AUDIO' }}</span>
+              <h3 class="tile__title">{{ block.settings.title }}</h3>
+            </div>
+            <div class="eq" aria-hidden="true">{%- for i in (1..24) -%}<i style="--d: {{ i | times: 37 | modulo: 100 }}"></i>{%- endfor -%}</div>
+            {%- if block.settings.embed_url != blank -%}
+              <iframe class="tile__embed" src="{{ block.settings.embed_url }}" title="{{ block.settings.title | escape }}" loading="lazy" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+            {%- endif -%}
+          </article>
+
+        {%- when 'live' -%}
+          <article class="tile tile--live tile--{{ block.settings.size }} reveal" data-kind="live" style="--i: {{ forloop.index0 }}" {{ block.shopify_attributes }}>
+            <a href="{{ block.settings.link }}" class="tile__live-link" target="_blank" rel="noopener">
+              <span class="badge {% if block.settings.is_live %}badge--accent{% else %}badge--muted{% endif %}"><i class="live-dot"></i>{% if block.settings.is_live %}{{ 'sections.hub.live_now' | t }}{% else %}{{ 'sections.hub.offline' | t }}{% endif %}</span>
+              <h3 class="tile__title display-md">{{ block.settings.title }}</h3>
+              <span class="mono">{{ block.settings.schedule }}</span>
+              {% render 'icon', icon: 'arrow' %}
+            </a>
+          </article>
+
+        {%- when 'drop' -%}
+          {%- if block.settings.product != blank -%}
+            <div class="tile tile--drop tile--{{ block.settings.size }}" data-kind="digital" {{ block.shopify_attributes }}>
+              {% render 'product-card', product: block.settings.product, index: forloop.index0 %}
+            </div>
+          {%- endif -%}
+
+        {%- when 'blog' -%}
+          {%- assign blog = block.settings.blog -%}
+          {%- if blog != blank -%}
+            {%- for article in blog.articles limit: block.settings.limit -%}
+              <article class="tile tile--article reveal" data-kind="editorial" style="--i: {{ forloop.index0 }}" {% if forloop.first %}{{ block.shopify_attributes }}{% endif %}>
+                <a href="{{ article.url }}" class="tile__article-link" data-tilt-card>
+                  <div class="tile__media media media--landscape">
+                    {%- if article.image -%}
+                      {{ article.image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '400, 700, 900', sizes: '(min-width: 990px) 33vw, 100vw' }}
+                    {%- else -%}
+                      {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                    {%- endif -%}
+                    <span class="card__glare" aria-hidden="true"></span>
+                  </div>
+                  <div class="tile__info">
+                    <span class="tile__kind mono">{{ article.published_at | date: '%d.%m.%y' }} / {{ blog.title | upcase }}</span>
+                    <h3 class="tile__title">{{ article.title }}</h3>
+                  </div>
+                </a>
+              </article>
+            {%- endfor -%}
+          {%- endif -%}
+      {%- endcase -%}
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Content hub",
+  "class": "section-hub",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "FAKTORY MEDIA" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "TRANSMISSIONS" }
+  ],
+  "blocks": [
+    {
+      "type": "video",
+      "name": "Video",
+      "settings": [
+        { "type": "video_url", "id": "video", "label": "YouTube or Vimeo URL", "accept": ["youtube", "vimeo"] },
+        { "type": "text", "id": "title", "label": "Title", "default": "STUDIO SESSIONS EP. 01" },
+        { "type": "text", "id": "label", "label": "Label", "default": "VIDEO" },
+        { "type": "image_picker", "id": "thumbnail", "label": "Custom thumbnail" },
+        { "type": "select", "id": "size", "label": "Tile size", "options": [{ "value": "sm", "label": "Small" }, { "value": "md", "label": "Medium" }, { "value": "lg", "label": "Large" }], "default": "lg" }
+      ]
+    },
+    {
+      "type": "audio",
+      "name": "Audio / podcast",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "FAKTORY RADIO 001" },
+        { "type": "text", "id": "label", "label": "Label", "default": "PODCAST" },
+        { "type": "text", "id": "embed_url", "label": "Embed URL", "info": "Spotify, SoundCloud, Apple Music or Bandcamp embed src URL." },
+        { "type": "select", "id": "size", "label": "Tile size", "options": [{ "value": "sm", "label": "Small" }, { "value": "md", "label": "Medium" }, { "value": "lg", "label": "Large" }], "default": "md" }
+      ]
+    },
+    {
+      "type": "live",
+      "name": "Livestream",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "LIVE FROM STUDIO A" },
+        { "type": "text", "id": "schedule", "label": "Schedule", "default": "EVERY FRIDAY 21:00" },
+        { "type": "url", "id": "link", "label": "Stream link" },
+        { "type": "checkbox", "id": "is_live", "label": "Currently live", "default": false },
+        { "type": "select", "id": "size", "label": "Tile size", "options": [{ "value": "sm", "label": "Small" }, { "value": "md", "label": "Medium" }, { "value": "lg", "label": "Large" }], "default": "sm" }
+      ]
+    },
+    {
+      "type": "drop",
+      "name": "Digital product",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Product", "info": "Sample packs, stems, presets, digital albums, tickets." },
+        { "type": "select", "id": "size", "label": "Tile size", "options": [{ "value": "sm", "label": "Small" }, { "value": "md", "label": "Medium" }, { "value": "lg", "label": "Large" }], "default": "sm" }
+      ]
+    },
+    {
+      "type": "blog",
+      "name": "Blog feed",
+      "settings": [
+        { "type": "blog", "id": "blog", "label": "Blog" },
+        { "type": "range", "id": "limit", "min": 1, "max": 9, "step": 1, "label": "Articles", "default": 3 }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Content hub",
+      "blocks": [
+        { "type": "video" },
+        { "type": "audio" },
+        { "type": "live" },
+        { "type": "blog" }
+      ]
+    }
+  ]
+}
+{% endschema %}

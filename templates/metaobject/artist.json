@@ -1,0 +1,39 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-artist",
+      "settings": {}
+    },
+    "marquee": {
+      "type": "marquee",
+      "blocks": {
+        "w0": {
+          "type": "word",
+          "settings": {
+            "text": "THE FAKTORY"
+          }
+        },
+        "w1": {
+          "type": "word",
+          "settings": {
+            "text": "ROSTER"
+          }
+        }
+      },
+      "block_order": [
+        "w0",
+        "w1"
+      ],
+      "settings": {
+        "style": "chrome",
+        "speed": 30,
+        "reverse": false,
+        "skew": true
+      }
+    }
+  },
+  "order": [
+    "main",
+    "marquee"
+  ]
+}

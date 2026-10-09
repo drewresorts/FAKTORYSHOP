@@ -1,0 +1,98 @@
+<header class="header{% if section.settings.transparent and template.name == 'index' %} header--overlay{% endif %}" data-header>
+  <div class="header__inner">
+    <a href="{{ routes.root_url }}" class="header__logo" aria-label="{{ shop.name }}">
+      {%- if settings.logo != blank -%}
+        {{
+          settings.logo
+          | image_url: width: 600
+          | image_tag: class: 'header__logo-img', widths: '150, 300, 600', sizes: 'var(--logo-width)', alt: shop.name
+        }}
+      {%- else -%}
+        {% render 'chrome-wordmark', text: settings.wordmark, class: 'header__wordmark' %}
+      {%- endif -%}
+    </a>
+
+    <nav class="header__nav" aria-label="{{ 'accessibility.main_nav' | t }}">
+      <ul role="list">
+        {%- for link in section.settings.menu.links -%}
+          <li>
+            <a href="{{ link.url }}" class="header__link{% if link.active or link.child_active %} is-active{% endif %}" data-scramble>
+              {{- link.title -}}
+            </a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </nav>
+
+    <div class="header__actions">
+      {%- if section.settings.show_status and section.settings.status_text != blank -%}
+        <span class="header__status mono"><i class="live-dot"></i>{{ section.settings.status_text }}</span>
+      {%- endif -%}
+      <a href="{{ routes.search_url }}" class="icon-btn" aria-label="{{ 'general.search' | t }}">{% render 'icon', icon: 'search' %}</a>
+      {%- if shop.customer_accounts_enabled -%}
+        <a href="{{ routes.account_url }}" class="icon-btn header__account" aria-label="{{ 'customer.account' | t }}">{% render 'icon', icon: 'account' %}</a>
+      {%- endif -%}
+      <a href="{{ routes.cart_url }}" class="icon-btn header__cart" data-cart-open aria-label="{{ 'cart.title' | t }}">
+        {% render 'icon', icon: 'cart' %}
+        <span class="header__cart-count mono" data-cart-count>{{ cart.item_count }}</span>
+      </a>
+      <button type="button" class="icon-btn header__menu-btn" data-menu-toggle aria-expanded="false" aria-controls="MenuOverlay" aria-label="{{ 'accessibility.menu' | t }}">
+        {% render 'icon', icon: 'menu' %}
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="menu-overlay" id="MenuOverlay" data-menu aria-hidden="true">
+  <div class="menu-overlay__bg" aria-hidden="true"></div>
+  <nav class="menu-overlay__nav" aria-label="{{ 'accessibility.main_nav' | t }}">
+    <ol role="list">
+      {%- for link in section.settings.menu.links -%}
+        <li style="--i: {{ forloop.index0 }}">
+          <a href="{{ link.url }}" class="menu-overlay__link">
+            <span class="mono menu-overlay__num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+            <span class="menu-overlay__label chrome-text">{{ link.title }}</span>
+          </a>
+        </li>
+      {%- endfor -%}
+    </ol>
+  </nav>
+  <div class="menu-overlay__foot mono">
+    {% render 'social-links' %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Header",
+  "class": "section-header",
+  "enabled_on": { "groups": ["header"] },
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu",
+      "info": "Suggested: Artists, Studio, Merch, Content."
+    },
+    {
+      "type": "checkbox",
+      "id": "transparent",
+      "label": "Overlay on homepage hero",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_status",
+      "label": "Show live status",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "status_text",
+      "label": "Status text",
+      "default": "STUDIO A — IN SESSION"
+    }
+  ]
+}
+{% endschema %}

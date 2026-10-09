@@ -1,0 +1,22 @@
+<article class="article section-pad">
+  <header class="page-width article__head">
+    <p class="eyebrow mono">{{ article.published_at | date: '%d.%m.%Y' }} / {{ article.author }}</p>
+    <h1 class="display-lg"><span class="chrome-text">{{ article.title }}</span></h1>
+  </header>
+  {%- if article.image -%}
+    <div class="article__hero media media--landscape" data-parallax="0.1">
+      {{ article.image | image_url: width: 2400 | image_tag: loading: 'eager', widths: '800, 1200, 1800, 2400', sizes: '100vw' }}
+    </div>
+  {%- endif -%}
+  <div class="page-width article__body rte">{{ article.content }}</div>
+  <footer class="page-width article__foot mono">
+    {%- if article.tags.size > 0 -%}
+      <ul class="tags" role="list">{%- for tag in article.tags -%}<li><a href="{{ blog.url }}/tagged/{{ tag | handleize }}" class="pill-btn">{{ tag }}</a></li>{%- endfor -%}</ul>
+    {%- endif -%}
+    <a href="{{ blog.url }}" class="link-underline">&larr; {{ 'blogs.back' | t }}</a>
+  </footer>
+</article>
+
+{% schema %}
+{ "name": "Article" }
+{% endschema %}
