@@ -135,8 +135,8 @@
         "a2": {
           "type": "artist",
           "settings": {
-            "name": "STEEL_HALO",
-            "role": "PRODUCER",
+            "name": "M1 ODAWG",
+            "role": "",
             "link": "",
             "spotify": "",
             "instagram": "",
@@ -164,25 +164,13 @@
             "instagram": "",
             "youtube": ""
           }
-        },
-        "a5": {
-          "type": "artist",
-          "settings": {
-            "name": "CHROMA",
-            "role": "ELECTRONIC",
-            "link": "",
-            "spotify": "",
-            "instagram": "",
-            "youtube": ""
-          }
         }
       },
       "block_order": [
         "a1",
         "a2",
         "a3",
-        "a4",
-        "a5"
+        "a4"
       ],
       "settings": {
         "eyebrow": "ROSTER",
