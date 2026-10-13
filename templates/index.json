@@ -25,9 +25,9 @@
         "model_url": "",
         "keep_materials": false,
         "iridescence": 100,
-        "roughness": 60,
-        "tint": "#ffffff",
-        "spin": 160,
+        "roughness": 0,
+        "tint": "#000000",
+        "spin": 40,
         "particles": true,
         "bg_video": "shopify://files/videos/IMG_2537.mov"
       }
