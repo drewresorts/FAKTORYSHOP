@@ -379,15 +379,8 @@ class FaktoryScene extends HTMLElement {
           const ring = new THREE.Mesh(new THREE.TorusGeometry(r, 0.07 + i * 0.015, 48, 220), this.material);
           ring.rotation.x = i * 0.9;
           mesh.add(ring);
-          return ring;
-          break; 
-      case 'faktory':
-        mesh = faktoryGeometry(this.material);
-        break;
-      case 'logo':
-        mesh = new THREE.Mesh(logoGeometry(), this.material);
-        mesh.scale.setScalar(1.05);
-        });
+          return ring;; 
+        };
         const core = new THREE.Mesh(new THREE.IcosahedronGeometry(0.38, 0), this.material);
         mesh.add(core);
         this.core = core;
