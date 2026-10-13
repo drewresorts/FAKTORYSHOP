@@ -13,7 +13,7 @@
       "type": "hero-3d",
       "settings": {
         "eyebrow": "RECORD LABEL / STUDIO / MEDIA",
-        "heading": "THE\nFAKTORY",
+        "heading": "",
         "subheading": "Sound manufactured without compromise. Artists, studio time, merch and content — all off the same line.",
         "button_label": "BOOK THE STUDIO",
         "button_link": "/pages/studio",
@@ -28,7 +28,8 @@
         "roughness": 60,
         "tint": "#ffffff",
         "spin": 160,
-        "particles": true
+        "particles": true,
+        "bg_video": "shopify://files/videos/IMG_2537.mov"
       }
     },
     "marquee": {
