@@ -20,7 +20,7 @@
         "button2_label": "SHOP MERCH",
         "button2_link": "/collections/all",
         "badge_text": "",
-        "height": "full",
+        "height": "large",
         "shape": "logo",
         "model_url": "",
         "keep_materials": false,
