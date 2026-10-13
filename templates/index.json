@@ -21,12 +21,12 @@
         "button2_link": "/collections/all",
         "badge_text": "",
         "height": "full",
-        "shape": "blob",
-        "model_url": "",
+        "shape": "model",
+        "model_url": "https://cdn.shopify.com/3d/models/a9e151daeff96dba/white_mesh_1_.glb",
         "keep_materials": false,
         "iridescence": 100,
         "roughness": 60,
-        "tint": "#FFFFFF",
+        "tint": "#ffffff",
         "spin": 160,
         "particles": true
       }
