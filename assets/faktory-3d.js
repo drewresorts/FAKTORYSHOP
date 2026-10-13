@@ -85,6 +85,149 @@ function chromeMaterial(opts) {
   });
 }
 
+/* ==========================================================================
+   FAKTORY COMPLETE LOGO — traced gear + F monogram + small gear
+   Usage: <faktory-scene data-shape="faktory">
+   ========================================================================== */
+
+function faktoryShapeFromPoints(points) {
+  const CENTER = 627;
+  const UNIT = 100;
+
+  const convert = ([x, y]) => new THREE.Vector2(
+    (x - CENTER) / UNIT,
+    (CENTER - y) / UNIT
+  );
+
+  const shape = new THREE.Shape();
+  const first = convert(points[0]);
+
+  shape.moveTo(first.x, first.y);
+
+  for (let i = 1; i < points.length; i++) {
+    const p = convert(points[i]);
+    shape.lineTo(p.x, p.y);
+  }
+
+  shape.closePath();
+  return shape;
+}
+
+function faktoryExtrude(shape, depth = 0.2) {
+  return new THREE.ExtrudeGeometry(shape, {
+    depth,
+    steps: 1,
+    bevelEnabled: true,
+    bevelThickness: 0.025,
+    bevelSize: 0.018,
+    bevelSegments: 3,
+    curveSegments: 8
+  });
+}
+
+function faktoryGeometry(material) {
+  const group = new THREE.Group();
+
+  // 1. LARGE LEFT GEAR
+  const largeGear = faktoryShapeFromPoints([
+    [712,243], [670,283], [642,274], [605,269],
+    [586,205], [501,217], [501,282], [467,294],
+    [428,315], [377,278], [319,334], [354,388],
+    [316,453], [253,445], [237,532], [294,550],
+    [294,594], [300,633], [247,663], [276,740],
+    [335,726], [352,752], [380,785], [350,844],
+    [410,883], [436,759], [409,731], [387,700],
+    [369,664], [357,625], [352,593], [352,549],
+    [359,510], [372,473], [399,426], [432,389],
+    [463,365], [509,342], [549,331], [586,327],
+    [628,330], [674,343], [750,342], [775,289]
+  ]);
+
+  const gearMesh = new THREE.Mesh(
+    faktoryExtrude(largeGear, 0.20),
+    material
+  );
+
+  gearMesh.position.z = -0.08;
+  group.add(gearMesh);
+
+  // 2. MAIN ANGULAR F MONOGRAM
+  const fShape = faktoryShapeFromPoints([
+    [1015,370], [535,370], [400,1048],
+    [544,926], [597,678], [776,678],
+    [869,569], [618,569], [637,481],
+    [916,481]
+  ]);
+
+  const fMesh = new THREE.Mesh(
+    faktoryExtrude(fShape, 0.24),
+    material
+  );
+
+  fMesh.position.z = 0.04;
+  group.add(fMesh);
+
+  // 3. SMALL RIGHT GEAR WITH A REAL THROUGH-HOLE
+  const smallGear = faktoryShapeFromPoints([
+    [931,762], [902,727], [875,741], [844,724],
+    [839,691], [798,688], [790,718], [768,723],
+    [745,733], [722,712], [691,740], [709,768],
+    [695,800], [667,802], [665,811], [643,821],
+    [587,830], [564,926], [636,926], [645,863],
+    [676,848], [694,853], [706,887], [686,912],
+    [714,940], [740,926], [770,942], [773,970],
+    [814,974], [823,947], [857,936], [878,956],
+    [910,929], [897,904], [915,872], [943,868],
+    [946,827], [919,817], [910,785]
+  ]);
+
+  // The opening follows a polygonal approximation of the
+  // circular hole visible in the supplied reference image.
+  const hole = faktoryShapeFromPoints([
+    [797,748], [826,749], [853,764], [874,787],
+    [886,815], [889,843], [879,870], [862,892],
+    [838,908], [811,914], [784,909], [760,895],
+    [741,874], [730,848], [730,819], [740,792],
+    [758,770], [776,756]
+  ]);
+
+  // THREE.Shape hole paths use their own local coordinates.
+  const holePath = new THREE.Path();
+  const holePoints = [
+    [797,748], [826,749], [853,764], [874,787],
+    [886,815], [889,843], [879,870], [862,892],
+    [838,908], [811,914], [784,909], [760,895],
+    [741,874], [730,848], [730,819], [740,792],
+    [758,770], [776,756]
+  ].map(([x, y]) => new THREE.Vector2(
+    (x - 627) / 100,
+    (627 - y) / 100
+  ));
+
+  holePath.moveTo(holePoints[0].x, holePoints[0].y);
+
+  for (let i = 1; i < holePoints.length; i++) {
+    holePath.lineTo(holePoints[i].x, holePoints[i].y);
+  }
+
+  holePath.closePath();
+  smallGear.holes.push(holePath);
+
+  const smallGearMesh = new THREE.Mesh(
+    faktoryExtrude(smallGear, 0.22),
+    material
+  );
+
+  smallGearMesh.position.z = 0.06;
+  group.add(smallGearMesh);
+
+  // Match the approximate dimensions of the other embedded
+  // objects in the component, keeping the complete logo visible.
+  group.scale.setScalar(0.38);
+
+  return group;
+}
+
 /* Bold "F" monogram, extruded with a bevel. */
 function logoGeometry() {
   const s = new THREE.Shape();
@@ -237,6 +380,13 @@ class FaktoryScene extends HTMLElement {
           ring.rotation.x = i * 0.9;
           mesh.add(ring);
           return ring;
+          break; 
+      case 'faktory':
+        mesh = faktoryGeometry(this.material);
+        break;
+      case 'logo':
+        mesh = new THREE.Mesh(logoGeometry(), this.material);
+        mesh.scale.setScalar(1.05);
         });
         const core = new THREE.Mesh(new THREE.IcosahedronGeometry(0.38, 0), this.material);
         mesh.add(core);
